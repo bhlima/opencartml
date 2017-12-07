@@ -1,0 +1,269 @@
+{{ header }} {{ column_left }}
+
+<div id="content">
+
+    <!-- Page Header -->
+    <div class="page-header">
+        <div class="container-fluid">
+
+            <div class="pull-right">
+                <button type="submit" form="form-moip" data-toggle="tooltip" title="{{ button_save }}" class="btn btn-primary"><i class="fa fa-save"></i></button>
+                <a href="#" data-toggle="tooltip" title="{{ button_cancel }}" class="btn btn-default"><i class="fa fa-reply"></i></a>	
+            </div>
+
+            <h1>{{ heading_title }}</h1>
+
+            <ul class="breadcrumb">
+                {% for breadcrumb in breadcrumbs %}
+                    <li><a href="{{ breadcrumb.href }}">{{ breadcrumb.name }}</a></li>
+                    {% endfor %}
+            </ul>
+        </div>
+    </div>
+
+
+
+
+
+    <!-- Container -->
+    <div class="container-fluid">
+
+        <!-- Error -->
+        {% if warning %}
+            <div class="alert alert-danger">
+                <i class="fa fa-exclamation-circle"></i> {{ warning }}
+                <button type="button" class="close" data-dismiss="alert">&times;</button>
+            </div>
+        {% endif %}
+
+        <!-- Panel -->
+        <div class="panel panel-default">
+
+            <!-- Title -->
+            <div class="panel-heading">
+                <h3 class="panel-title"><i class="fa fa-pencil"></i> {{ heading_title }}</h3> 
+
+            </div>
+
+            <!-- Body -->
+            <div class="panel-body">
+
+                <!-- Nav -->
+                <ul class="nav nav-tabs">
+                    <li><a data-toggle="tab" href="#config">{{ tab_config }}</a></li>
+                    <li><a data-toggle="tab" href="#browse">{{ tab_listing_config }}</a></li>
+                    <li><a data-toggle="tab" href="#automation">{{ tab_ml_automation }}</a></li>
+                    <li><a data-toggle="tab" href="#orders">{{ tab_order_config }}</a></li>
+                    <li><a data-toggle="tab" href="#templates">{{ tab_template }}</a></li>
+                </ul>
+
+                <!-- Form -->
+                <form action="{{ action }}" method="post" enctype="multipart/form-data" id="form-moip" class="form-horizontal">
+
+                    <!-- Tab Config -->
+                    <div class="tab-content">
+                        <div class="tab-pane" id="config">
+
+
+
+
+
+
+                            <!-- Client_id -->
+                            <div class="form-group required">
+                                <label class="col-sm-2 control-label"><span data-toggle="tooltip" data-html="true" title="{{ help_client_id }}">{{ entry_client_id }}</span></label>
+                                <div class="col-sm-10">
+                                    <input name="module_opencartml_client_id" type="text" class="form-control" value="{{ module_opencartml_client_id }}" />
+                                    {% if client_id %}
+                                        <div class="text-danger">{{ client_id }}</div>
+                                    {% endif %}
+                                </div>
+                            </div>
+
+                            <!-- Client_secret -->
+                            <div class="form-group required">
+                                <label class="col-sm-2 control-label"><span data-toggle="tooltip" data-html="true" title="{{ help_client_secret }}">{{ entry_client_secret }}</span></label>
+                                <div class="col-sm-10">
+                                    <input name="module_opencartml_client_secret" type="text" class="form-control" value="{{ module_opencartml_client_secret }}" />
+                                    {% if client_secret %}
+                                        <div class="text-danger">{{ client_secret }}</div>
+                                    {% endif %}
+                                </div>
+                            </div>
+
+
+                            <!-- Debug -->
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label"><span data-toggle="tooltip" data-html="true" title="{{ help_debug }}">{{ entry_debug }}</span></label>
+                                <div class="col-sm-10">
+                                    <select name="module_opencartml_debug" class="form-control">
+                                        {% if module_opencartml_debug %}
+                                            <option value="1" selected>{{ text_yes }}</option>
+                                        {% else %}
+                                            <option value="1">{{ text_yes }}</option>
+                                        {% endif %}                   
+                                        {% if not module_opencartml_debug %}
+                                            <option value="0" selected>{{ text_no }}</option>
+                                        {% else %}
+                                            <option value="0">{{ text_no }}</option>
+                                        {% endif %}
+                                    </select>
+                                </div>
+                            </div>
+
+                            <!-- Status -->
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label"><span data-toggle="tooltip" data-html="true" title="{{ help_status }}">{{ entry_status }}</span></label>
+                                <div class="col-sm-10">
+                                    <select name="module_opencartml_status" class="form-control">
+                                        {% if module_opencartml_status %}
+
+                                            <option value="1]" selected>{{ text_enabled }}</option>
+                                        {% else %}
+                                            <option value="1">{{ text_enabled }}</option>
+                                        {% endif %}
+
+                                        {% if not module_opencartml_status %}
+
+                                            <option value="0" selected>{{ text_disabled }}</option>
+                                        {% else %}
+                                            <option value="0">{{ text_disabled }}</option>
+                                        {% endif %}
+                                    </select>
+                                </div>
+                            </div>     
+                        </div>
+                        <!-- Tab Config -->
+
+
+
+
+                        <!-- Tab Browse -->
+                        <div class="tab-pane" id="browse">
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label"><span data-toggle="tooltip" data-html="true" title="{{ help_ml_category }}">{{ entry_ml_category }}</span></label>
+                                <div class="col-sm-10">
+                                    <select name="module_opencartml_category" class="form-control">
+                                        <option value="1" selected>{{ text_enabled }}</option>
+                                        <option value="0">{{ text_enabled }}</option>
+                                    </select>
+                                </div>
+                            </div>   
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label"><span data-toggle="tooltip" data-html="true" title="{{ help_ml_subcategory }}">{{ entry_ml_subcategory }}</span></label>
+                                <div class="col-sm-10">
+                                    <select name="module_opencartml_subcategory" class="form-control">
+                                        <option value="1" selected>{{ text_enabled }}</option>
+                                        <option value="0">{{ text_enabled }}</option>
+                                    </select>
+                                </div>
+                            </div>   
+
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label"><span data-toggle="tooltip" data-html="true" title="{{ help_ml_currency }}">{{ entry_ml_currency }}</span></label>
+                                <div class="col-sm-10">
+                                    <select name="module_opencartml_currency" class="form-control">
+                                        <option value="1" selected>{{ text_enabled }}</option>
+                                        <option value="0">{{ text_enabled }}</option>
+                                    </select>
+                                </div>
+                            </div>   
+
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label"><span data-toggle="tooltip" data-html="true" title="{{ help_ml_adtype }}">{{ entry_ml_adtype }}</span></label>
+                                <div class="col-sm-10">
+                                    <select name="module_opencartml_adtype" class="form-control">
+                                        <option value="1" selected>{{ text_enabled }}</option>
+                                        <option value="0">{{ text_enabled }}</option>
+                                    </select>
+                                </div>
+                            </div>   
+
+
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label"><span data-toggle="tooltip" data-html="true" title="{{ help_ml_itemcondition }}">{{ entry_ml_itemcondition }}</span></label>
+                                <div class="col-sm-10">
+                                    <select name="module_opencartml_itemcondition" class="form-control">
+                                        {% if module_opencartml_itemcondition %}    
+
+                                            <option value="1" selected>{{ text_ml_new }}</option>
+                                        {% else %}
+                                            <option value="1">{{ text_ml_new }}</option>               
+
+                                        {% endif %}
+
+                                        {% if not module_opencart_itemcondition%}
+                                            <option value="0" selected> {{ text_ml_used }}</option>                                    
+                                        {% else %}
+                                            <option value="0"> {{ text_ml_used }}</option>                                           
+
+                                        {% endif %}
+                                    </select>
+                                </div>
+                            </div>   
+
+
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label" for="input-description1">{{ entry_ml_template_default }}</label>
+                                <div class="col-sm-10">
+                                    <textarea name="module_opencartml_template_default" placeholder="Description" id="input-description1" data-toggle="summernote" data-lang="" class="form-control">
+                                    </textarea>
+                                </div>
+                            </div>
+
+
+
+                        </div<!-- Status -->
+                        <div class="tab-pane" id="automation"><!-- Tab Automation -->                            
+                            <div class="form-group required"><!-- Status -->
+                                <label class="col-sm-2 control-label"><span data-toggle="tooltip" data-html="true" title="{{ help_ml_feedback_status }}">{{ entry_ml_feedback_status }}</span></label>
+                                <div class="col-sm-10">
+                                    <select name="module_opencartml_feedback_status" class="form-control">
+                                        {% if module_opencartml_feedback_status %}
+                                            <option value="1" selected>{{ text_enabled }}</option>
+                                        {% else %}
+                                            <option value="1">{{ text_enabled }}</option>
+                                        {% endif %}
+
+                                        {% if not module_opencartml_feedback_status %}
+                                            <option value="0" selected>{{ text_disabled }}</option>
+                                        {% else %}
+                                            <option value="0">{{ text_disabled }}</option>
+                                        {% endif %}
+                                    </select>
+                                </div>
+                            </div><!-- Status -->
+                            
+                        </div>
+                    </div><!-- tab Content -->
+                </form> <!-- /Form -->   
+            </div><!-- /.panel-body -->
+        </div><!-- /.panel.panel-default -->
+    </div><!-- /.container-fluid -->
+</div><!-- /#content -->
+
+
+
+
+<script type="text/javascript" src="view/javascript/summernote/summernote.js"></script>
+<link href="view/javascript/summernote/summernote.css" rel="stylesheet" />
+<script type="text/javascript" src="view/javascript/summernote/summernote-image-attributes.js"></script> 
+<script type="text/javascript" src="view/javascript/summernote/opencart.js"></script> 
+
+<script type="text/javascript">
+    $('fieldset legend').css('cursor', 'pointer');
+
+    $('.nav-tabs li:first').addClass('active');
+    $('.tab-content div:first').addClass('active');
+
+    $('fieldset legend').click(function () {
+        $(this).parent().find('div').slideToggle('slow');
+    });
+</script>
+
+{{ footer }}
