@@ -10,6 +10,8 @@ class ControllerExtensionModuleOpencartml extends Controller {
     public $siteId = 'MLB';
     public $redirectURI ;
     public $secretkey ;
+  
+    
     public function index() {
 
         /* Carrega idioma */
@@ -28,8 +30,7 @@ class ControllerExtensionModuleOpencartml extends Controller {
                 'module_opencartml_debug' => $this->request->post['module_opencartml_debug'],
             ]);
             $this->session->data['success'] = $this->language->get('text_success');
-            $this->response->redirect($this->url->link('marketplace/extension', 'user_token=' . $user_token, true));
-            
+            $this->response->redirect($this->url->link('marketplace/extension', 'user_token=' . $user_token, true));            
        }
      
         /* Warning */
