@@ -18,7 +18,7 @@ class Opencartml {
 	 */
 	 
 	 
-    const VERSION  = "1.1.0";
+    const VERSION  = "3.0";
 	
     protected static $API_ROOT_URL = "https://api.mercadolibre.com";
     protected static $OAUTH_URL    = "/oauth/token";

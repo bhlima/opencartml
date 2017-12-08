@@ -42,8 +42,9 @@ $_['entry_ml_adtype']               = 'Tipo:';
 $_['entry_ml_itemcondition']        = 'Estado:';
 $_['entry_ml_automation']           = 'Tarefas automaticas';
 $_['entry_ml_feedback_status']      = 'Situação';
+$_['entry_ml_feedback_status_post'] = 'Qualificar quando';
 $_['entry_ml_template_default']     = 'Descrição';
-
+$_['entry_ml_feedback_rating']      = 'Qualificação';
 
 //Help
 $_['help_status']                   = 'Habilite ou Desabilite o módulo Mercado Livre)';
@@ -58,8 +59,9 @@ $_['help_ml_currency']              = 'Moeda padrão dos seus anuncios';
 $_['help_ml_adtype']                = 'Selecione a quantide extra de aparições';
 $_['help_ml_itemcondition']         = 'Especifique o que você vai vender se é novo ou usado';
 $_['help_ml_feedback_status']       = 'Se estiver ligado, qualifica os clientes assim que o produto é enviado';
+$_['help_ml_feedback_status_post']  = 'Determina quando o indivíduo deve ser qualificado';
 $_['help_ml_template_default']      = 'Se estiver ligado, qualifica os clientes assim que o produto é enviado';
-
+$_['help_ml_feedback_rating']       = 'Qualificação que você vai postar automaticamente';
 
 
 //Error
