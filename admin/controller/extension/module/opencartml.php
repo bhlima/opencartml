@@ -1,13 +1,15 @@
 <?php
 
 
-require_once '../admin/controller/extension/module/opme.php';
+require_once '../admin/controller/extension/module/meli.php';
 
 class ControllerExtensionModuleOpencartml extends Controller {
 
     private $error = array();
     private $opme;
-
+    public $siteId = 'MLB';
+    public $redirectURI ;
+    public $secretkey ;
     public function index() {
 
         /* Carrega idioma */
@@ -17,25 +19,19 @@ class ControllerExtensionModuleOpencartml extends Controller {
         
         if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->validate()) {
             $this->load->model('setting/setting');
-            $this->load->library('opencartml');
-            
-/* @var $secret type */
-
-            
+            $this->load->library('opencartml');                      
             $this->model_setting_setting->editSetting('module_opencartml', $this->request->post);
-
             $this->model_setting_setting->editSetting('module_opencartml', [
                 'module_opencartml_status' => $this->request->post['module_opencartml_status'],
                 'module_opencartml_client_id' => $this->request->post['module_opencartml_client_id'],
                 'module_opencartml_client_secret' => $this->request->post['module_opencartml_client_secret'],
                 'module_opencartml_debug' => $this->request->post['module_opencartml_debug'],
             ]);
-
             $this->session->data['success'] = $this->language->get('text_success');
             $this->response->redirect($this->url->link('marketplace/extension', 'user_token=' . $user_token, true));
             
        }
-
+     
         /* Warning */
         if (isset($this->error['warning'])) {
             $data['warning'] = $this->error['warning'];
@@ -43,15 +39,12 @@ class ControllerExtensionModuleOpencartml extends Controller {
             $data['warning'] = false;
         }
 
-
         /* Error Token */
         if (isset($this->error['token'])) {
             $data['error_token'] = $this->error['token'];
         } else {
             $data['error_token'] = false;
         }
-
-
 
         $data['breadcrumbs'] = array();
 
@@ -70,14 +63,12 @@ class ControllerExtensionModuleOpencartml extends Controller {
             'name' => $this->language->get('heading_title')
         );
 
-
         /* Status */
         if (isset($this->request->post['module_opencartml_status'])) {
             $data['module_opencartml_status'] = $this->request->post['module_opencartml_status'];
         } else {
             $data['module_opencartml_status'] = $this->config->get('module_opencartml_status');
         }
-
 
         /* Client_id */
         if (isset($this->request->post['module_opencartml_client_id'])) {
@@ -93,14 +84,12 @@ class ControllerExtensionModuleOpencartml extends Controller {
             $data['module_opencartml_client_secret'] = $this->config->get('module_opencartml_client_secret');
         }
 
-
         /* Debug */
         if (isset($this->request->post['module_opencartml_debug'])) {
             $data['module_opencartml_debug'] = $this->request->post['module_opencartml_debug'];
         } else {
             $data['module_opencartml_debug'] = $this->config->get('module_opencartml_debug');
         }
-
 
         /* Debug */
         if (file_exists(DIR_LOGS . 'opencartml.log')) {

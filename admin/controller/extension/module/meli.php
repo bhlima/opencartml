@@ -1,8 +1,7 @@
 <?php
 
-class Opme {
+class Meli {
 
-   
 	/**
 	 * @version 1.1.0
 	 */
@@ -55,9 +54,9 @@ class Opme {
      * @param string $access_token
      * @param string $refresh_token
      */
-    public function __construct($access_token = null, $refresh_token = null) {
-        $this->client_id = $this->config->get('client_id');
-        $this->client_secret = $this->config->get('client_secret');
+    public function __construct($client_id, $client_secret, $access_token = null, $refresh_token = null) {
+        $this->client_id = $client_id;
+        $this->client_secret = $client_secret;
         $this->access_token = $access_token;
         $this->refresh_token = $refresh_token;
     }
