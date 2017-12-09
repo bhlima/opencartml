@@ -2,7 +2,7 @@
 
 <div id="content"><!-- Page Content -->
     
-    
+   
     <div class="page-header"><!-- Page Header -->      
         <div class="container-fluid">
             <div class="pull-right">
@@ -18,14 +18,9 @@
         </div>
     </div><!-- Page Header -->
 
-
-
-
-
     <!-- Container -->
     <div class="container-fluid">
-
-        
+       
         
         <!-- Error -->
         {% if warning %}
@@ -33,9 +28,7 @@
                 <i class="fa fa-exclamation-circle"></i> {{ warning }}
                 <button type="button" class="close" data-dismiss="alert">&times;</button>
             </div>
-        {% endif %}
-
-        
+        {% endif %}       
         
         <!-- Panel -->
         <div class="panel panel-default">
@@ -59,11 +52,8 @@
 
                 <!-- Form -->
                 <form action="{{ action }}" method="post" enctype="multipart/form-data" id="form-moip" class="form-horizontal">
-
-                    <div class="tab-content">
-                        
+                    <div class="tab-content">                        
                         <div class="tab-pane" id="config"><!-- Tab Config -->
-
                             <!-- Client_id -->
                             <div class="form-group required">
                                 <label class="col-sm-2 control-label"><span data-toggle="tooltip" data-html="true" title="{{ help_client_id }}">{{ entry_client_id }}</span></label>
@@ -112,14 +102,11 @@
                                 <div class="col-sm-10">
                                     <select name="module_opencartml_status" class="form-control">
                                         {% if module_opencartml_status %}
-
                                             <option value="1]" selected>{{ text_enabled }}</option>
                                         {% else %}
                                             <option value="1">{{ text_enabled }}</option>
                                         {% endif %}
-
                                         {% if not module_opencartml_status %}
-
                                             <option value="0" selected>{{ text_disabled }}</option>
                                         {% else %}
                                             <option value="0">{{ text_disabled }}</option>
@@ -213,7 +200,6 @@
                                         {% else %}
                                             <option value="1">{{ text_enabled }}</option>
                                         {% endif %}
-
                                         {% if not module_opencartml_feedback_status %}
                                             <option value="0" selected>{{ text_disabled }}</option>
                                         {% else %}
@@ -233,7 +219,6 @@
                                         {% else %}
                                             <option value="1">{{ text_enabled }}</option>
                                         {% endif %}
-
                                         {% if not module_opencartml_feedback_status_post %}
                                             <option value="0" selected>{{ text_disabled }}</option>
                                         {% else %}
@@ -254,7 +239,6 @@
                                         {% else %}
                                             <option value="1">{{ text_enabled }}</option>
                                         {% endif %}
-
                                         {% if not module_opencartml_feedback_rating %}
                                             <option value="0" selected>{{ text_disabled }}</option>
                                         {% else %}
@@ -264,7 +248,6 @@
                                 </div>
                             </div><!-- Status -->                          
                             
-
                             
                              <div class="form-group">
                                 <label class="col-sm-2 control-label" for="input-description1">{{ entry_ml_feedback_message }}</label>
@@ -272,14 +255,183 @@
                                     <textarea name="module_opencartml_feedback_message" placeholder="Description" id="input-feedback" data-toggle="none" data-lang="" class="form-control">
                                     </textarea>
                                 </div>
-                            </div>                           
-                            
-                                                        
-                            
-                        </div>
-                                
-                                
-                                
+                            </div>                                                      
+                        </div><!-- Tab Feedback -->   
+                        
+                        
+       <div class="tab-pane" id="orders">
+            
+              <!-- Aguardando Pagamento -->
+              <div class="form-group">
+                <label class="col-sm-2 control-label"><span data-toggle="tooltip" data-html="true" title="{{ help_aguardando_pagamento }}">{{ entry_aguardando_pagamento }}</span></label>
+                <div class="col-sm-10">
+                  <select name="payment_pagseguro_aguardando_pagamento" class="form-control">
+                  {% for status in statuses %}
+                  {% if payment_pagseguro_aguardando_pagamento == status.order_status_id %}
+                  <option value="{{ status.order_status_id }}" selected>{{ status.name }}</option>
+                  {% else %}
+                  <option value="{{ status.order_status_id }}">{{ status.name }}</option>
+                  {% endif %}
+                  {% endfor %}
+                  </select>
+                </div>
+              </div>
+              
+              <!-- Em Análise -->
+              <div class="form-group">
+                <label class="col-sm-2 control-label"><span data-toggle="tooltip" data-html="true" title="{{ help_analise }}">{{ entry_analise }}</span></label>
+                <div class="col-sm-10">
+                  <select name="payment_pagseguro_analise" class="form-control">
+                    {% for status in statuses %}
+                    {% if payment_pagseguro_analise == status.order_status_id %}
+                    <option value="{{ status.order_status_id }}" selected>{{ status.name }}</option>
+                    {% else %}
+                    <option value="{{ status.order_status_id }}">{{ status.name }}</option>
+                    {% endif %}
+                    {% endfor %}
+                  </select>
+                </div>
+              </div>
+              
+              <!-- Pago -->
+              <div class="form-group">
+                <label class="col-sm-2 control-label"><span data-toggle="tooltip" data-html="true" title="{{ help_pago }}">{{ entry_pago }}</span></label>
+                <div class="col-sm-10">
+                  <select name="payment_pagseguro_paga" class="form-control">
+                    {% for status in statuses %}
+                    {% if payment_pagseguro_paga == status.order_status_id %}
+                    <option value="{{ status.order_status_id }}" selected>{{ status.name }}</option>
+                    {% else %}
+                    <option value="{{ status.order_status_id }}">{{ status.name }}</option>
+                    {% endif %}
+                    {% endfor %}
+                  </select>
+                </div>
+              </div>
+              
+              <!-- Disponível -->
+              <div class="form-group">
+                <label class="col-sm-2 control-label"><span data-toggle="tooltip" data-html="true" title="{{ help_disponivel }}">{{ entry_disponivel }}</span></label>
+                <div class="col-sm-10">
+                  <select name="payment_pagseguro_disponivel" class="form-control">
+                    {% for status in statuses %}
+                    {% if payment_pagseguro_disponivel == status.order_status_id %}
+                    <option value="{{ status.order_status_id }}" selected>{{ status.name }}</option>
+                    {% else %}
+                    <option value="{{ status.order_status_id }}">{{ status.name }}</option>
+                    {% endif %}
+                    {% endfor %}
+                  </select>
+                </div>
+              </div>
+              
+              <!-- Disputa -->
+              <div class="form-group">
+                <label class="col-sm-2 control-label"><span data-toggle="tooltip" data-html="true" title="{{ help_disputa }}">{{ entry_disputa }}</span></label>
+                <div class="col-sm-10">
+                  <select name="payment_pagseguro_disputa" class="form-control">
+                    {% for status in statuses %}
+                    {% if payment_pagseguro_disputa == status.order_status_id %}
+                    <option value="{{ status.order_status_id }}" selected>{{ status.name }}</option>
+                    {% else %}
+                    <option value="{{ status.order_status_id }}">{{ status.name }}</option>
+                    {% endif %}
+                    {% endfor %}
+                  </select>
+                </div>
+              </div>
+              
+              <!-- Devolvida -->
+              <div class="form-group">
+                <label class="col-sm-2 control-label"><span data-toggle="tooltip" data-html="true" title="{{ help_devolvida }}">{{ entry_devolvido }}</span></label>
+                <div class="col-sm-10">
+                  <select name="payment_pagseguro_devolvida" class="form-control">
+                    {% for status in statuses %}
+                    {% if payment_pagseguro_devolvida == status.order_status_id %}
+                    <option value="{{ status.order_status_id }}" selected>{{ status.name }}</option>
+                    {% else %}
+                    <option value="{{ status.order_status_id }}">{{ status.name }}</option>
+                    {% endif %}
+                    {% endfor %}
+                  </select>
+                </div>
+              </div>
+              
+              <!-- Cancelada -->
+              <div class="form-group">
+                <label class="col-sm-2 control-label"><span data-toggle="tooltip" data-html="true" title="{{ entry_cancelada }}">{{ entry_cancelada }}</span></label>
+                <div class="col-sm-10">
+                  <select name="payment_pagseguro_cancelada" class="form-control">
+                   {% for status in statuses %}
+                   {% if payment_pagseguro_cancelada == status.order_status_id %}
+                   <option value="{{ status.order_status_id }}" selected>{{ status.name }}</option>
+                   {% else %}
+                   <option value="{{ status.order_status_id }}">{{ status.name }}</option>
+                   {% endif %}
+                   {% endfor %}
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <!-- Tab Área Geográfica e Ordem -->
+            <div class="tab-pane" id="area">
+            
+              <!-- Zona Geográfica -->
+              <div class="form-group">
+                <label class="col-sm-2 control-label">{{ entry_geo_zone }}</label>
+                <div class="col-sm-10">
+                  <select name="payment_pagseguro_geo_zone" class="form-control">
+                    <option value="0">{{ text_all_zones }}</option>
+                    {% for zone in zones %}
+                    {% if payment_pagseguro_geo_zone == zone.geo_zone_id %}
+                    <option value="{{ status.geo_zone_id }}" selected>{{ zone.name }}</option>
+                    {% else %}
+                    <option value="{{ status.geo_zone_id }}">{{ zone.name }}</option>
+                    {% endif %}
+                    {% endfor %}
+                  </select>
+                </div>
+              </div>
+            
+              <!-- Sort Order -->
+              <div class="form-group">
+                <label class="col-sm-2 control-label">{{ entry_sort_order }}</label>
+                <div class="col-sm-10">
+                  <input type="text" name="payment_pagseguro_sort_order" value="{{ payment_pagseguro_sort_order }}" class="form-control" />
+                </div>
+              </div>
+            </div>
+
+            <!-- Tab Parcelas -->
+            <div class="tab-pane" id="plots">
+            
+              <!-- Quantidade Total de Parcelas -->
+              <div class="form-group required">
+                <label class="col-sm-2 control-label"><span data-toggle="tooltip" data-html="true" title="{{ help_exemplo_parcela }}">{{ entry_qnt_parcelas }}</span></label>
+                <div class="col-sm-10">
+                  <input type="text" name="payment_pagseguro_qnt_parcelas" value="{{ payment_pagseguro_qnt_parcelas }}" class="form-control" />
+                  {% if error_qnt_parcela %}
+                  <div class="text-danger">{{ error_qnt_parcela }}</div>
+                  {% endif %}
+                </div>
+              </div>
+              
+              <!-- Quantidade de Parcelas sem Juros -->
+              <div class="form-group required">
+                <label class="col-sm-2 control-label"><span data-toggle="tooltip" data-html="true" title="{{ help_parcela_sem_juros }}">{{ entry_parcelas_sem_juros }}</span></label>
+                <div class="col-sm-10">
+                  <input type="text" name="payment_pagseguro_parcelas_sem_juros" value="{{ payment_pagseguro_parcelas_sem_juros }}" class="form-control" />
+                  {% if error_parcelas_sem_juros %}
+                  <div class="text-danger">{{ error_parcelas_sem_juros }}</div>
+                  {% endif %}
+                </div>
+              </div>
+            </div>              
+                        
+                        
+                        
+                        
                     </div><!-- tab Content -->
                 </form> <!-- /Form -->   
             </div><!-- /.panel-body -->
@@ -287,17 +439,15 @@
     </div><!-- /.container-fluid -->
 </div><!-- /#content -->
 
-
 <script type="text/javascript" src="view/javascript/summernote/summernote.js"></script>
 <link href="view/javascript/summernote/summernote.css" rel="stylesheet" />
 <script type="text/javascript" src="view/javascript/summernote/summernote-image-attributes.js"></script> 
 <script type="text/javascript" src="view/javascript/summernote/opencart.js"></script> 
+
 <script type="text/javascript">
     $('fieldset legend').css('cursor', 'pointer');
-
     $('.nav-tabs li:first').addClass('active');
     $('.tab-content div:first').addClass('active');
-
     $('fieldset legend').click(function () {
         $(this).parent().find('div').slideToggle('slow');
     });

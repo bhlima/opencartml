@@ -11,6 +11,8 @@ class ControllerExtensionModuleOpencartml extends Controller {
     public $siteId = 'MLB';
     public $redirectURI ;
     public $secretkey ;
+    
+
   
     
     public function index() {
@@ -22,7 +24,7 @@ class ControllerExtensionModuleOpencartml extends Controller {
         
         if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->validate()) {
             $this->load->model('setting/setting');
-            $this->load->library('opencartml');                      
+            $this->load->model('localisation/order_status');
             $this->model_setting_setting->editSetting('module_opencartml', $this->request->post);
             $this->model_setting_setting->editSetting('module_opencartml', [
                 'module_opencartml_status' => $this->request->post['module_opencartml_status'],
@@ -32,7 +34,8 @@ class ControllerExtensionModuleOpencartml extends Controller {
             ]);
             $this->session->data['success'] = $this->language->get('text_success');
             $this->response->redirect($this->url->link('marketplace/extension', 'user_token=' . $user_token, true));            
-       }
+            $this->getListStatusOrder();
+            }
      
         /* Warning */
         if (isset($this->error['warning'])) {
@@ -139,6 +142,53 @@ class ControllerExtensionModuleOpencartml extends Controller {
 
         return !$this->error;
     }
+    
+    
+    // Método get list - Identica a função do sistema
+    // Estou escrendo este modulo de teste não será implementado   
+    	public function getListStatusOrder() {          
+            $sort = 'name';
+            $order = 'ASC';
+            
+            
+		$data['order_statuses'] = array();
+		$filter_data = array(
+			'sort'  => $sort,
+			'order' => $order,
+			'start' => 0,
+			'limit' => $this->config->get('config_limit_admin')
+		);
+		$results = $this->model_localisation_order_status->getOrderStatuses($filter_data);
+		foreach ($results as $result) {
+			$data['order_statuses'][] = array(
+				'order_status_id' => $result['order_status_id'],
+				'name'            => $result['name'] . (($result['order_status_id'] == $this->config->get('config_order_status_id')) ? $this->language->get('text_default') : null)
+			);
+		}
+		$data['sort'] = $sort;
+		$data['order'] = $order;
+	}  // Final do metodo
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 
     public function install() {
         $this->db->query("INSERT INTO `" . DB_PREFIX . "extension` (`type`, `code`) VALUES ('module', 'opencartml') ");
