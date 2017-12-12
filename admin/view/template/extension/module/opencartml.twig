@@ -1,8 +1,8 @@
 {{ header }} {{ column_left }}
 
 <div id="content"><!-- Page Content -->
-    
-   
+
+
     <div class="page-header"><!-- Page Header -->      
         <div class="container-fluid">
             <div class="pull-right">
@@ -20,8 +20,8 @@
 
     <!-- Container -->
     <div class="container-fluid">
-       
-        
+
+
         <!-- Error -->
         {% if warning %}
             <div class="alert alert-danger">
@@ -29,7 +29,7 @@
                 <button type="button" class="close" data-dismiss="alert">&times;</button>
             </div>
         {% endif %}       
-        
+
         <!-- Panel -->
         <div class="panel panel-default">
 
@@ -47,8 +47,10 @@
                     <li><a data-toggle="tab" href="#browse">{{ tab_listing_config }}</a></li>
                     <li><a data-toggle="tab" href="#automation">{{ tab_ml_automation }}</a></li>
                     <li><a data-toggle="tab" href="#orders">{{ tab_order_config }}</a></li>
+                    <li><a data-toggle="tab" href="#messages">{{ tab_ml_menssages }}</a></li>
                     <li><a data-toggle="tab" href="#templates">{{ tab_template }}</a></li>
                 </ul>
+
 
                 <!-- Form -->
                 <form action="{{ action }}" method="post" enctype="multipart/form-data" id="form-moip" class="form-horizontal">
@@ -114,8 +116,91 @@
                                     </select>
                                 </div>
                             </div>     
+
+
+
+
+
+
+                            <!-- Custom Field (Número) -->
+                            <div class="form-group required">
+                                <label class="col-sm-2 control-label"><span data-toggle="tooltip" data-html="true" title="{{ help_ml_number }}">{{ entry_ml_number }}</span></label>
+                                <div class="col-sm-10">
+                                    <span class="input-group">
+                                        <select name="module_opencartml_number" class="form-control">
+                                            {% for custom_field in custom_fields %}
+                                                {% if custom_field.custom_field_id == module_opencartml_number %}
+                                                    <option value="{{ custom_field.custom_field_id }}" selected>{{ custom_field.name }}</option>
+                                                {% else %}
+                                                    <option value="{{ custom_field.custom_field_id }}">{{ custom_field.name }}</option>
+                                                {% endif %}
+                                            {% endfor %}
+                                        </select>
+
+                                        <span class="input-group-btn">
+                                            <a href="{{ link_custom_field }}" class="btn btn-primary">{{ text_ml_custom_field }}</a>
+                                        </span>
+                                    </span>
+                                </div>
+                            </div>
+
+                            <!-- Custom Field (Data de Nascimento) -->
+                            <div class="form-group required">
+                                <label class="col-sm-2 control-label"><span data-toggle="tooltip" data-html="true" title="{{ help_ml_data_nascimento }}">{{ entry_ml_data_nascimento }}</span></label>
+                                <div class="col-sm-10">
+                                    <span class="input-group">
+                                        <select name="module_opencartml_data_nascimento" class="form-control">
+                                            {% for custom_field in custom_fields %}
+                                                {% if custom_field.custom_field_id == module_opencartml_data_nascimento %}
+                                                    <option value="{{ custom_field.custom_field_id }}" selected>{{ custom_field.name }}</option>
+                                                {% else %}
+                                                    <option value="{{ custom_field.custom_field_id }}">{{ custom_field.name }}</option>
+                                                {% endif %}
+                                            {% endfor %}
+                                        </select>
+
+                                        <span class="input-group-btn">
+                                            <a href="{{ link_custom_field }}" class="btn btn-primary">{{ text_ml_custom_field }}</a>
+                                        </span>
+                                    </span>
+                                </div>
+                            </div>
+
+                            <!-- Custom Field (CPF) -->
+                            <div class="form-group required">
+                                <label class="col-sm-2 control-label"><span data-toggle="tooltip" data-html="true" title="{{ help_ml_cpf }}">{{ entry_ml_cpf }}</span></label>
+                                <div class="col-sm-10">
+                                    <span class="input-group">
+                                        <select name="module_opencartml_ml_cpf" class="form-control">
+                                            {% for custom_field in custom_fields %}
+                                                {% if custom_field.custom_field_id == module_opencartml_ml_cpf %}
+                                                    <option value="{{ custom_field.custom_field_id }}" selected>{{ custom_field.name }}</option>
+                                                {% else %}
+                                                    <option value="{{ custom_field.custom_field_id }}">{{ custom_field.name }}</option>
+                                                {% endif %}
+                                            {% endfor %}
+                                        </select>
+
+                                        <span class="input-group-btn">
+                                            <a href="{{ link_custom_field }}" class="btn btn-primary">{{ text_ml_custom_field }}</a>
+                                        </span>
+                                    </span>
+                                </div>
+                            </div>
+
+                            <!-- URL de Retorno -->
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">{{ entry_ml_url_retorno }}</label>
+                                <div class="col-sm-10">
+                                    <input type="text" disabled value="https://www.MYSTORE.com.br/index.php?route=module/opencartml/callback" class="form-control" />
+                                </div>
+                            </div>
+
+
+
+
                         </div> <!-- Tab Config -->
-                       
+
 
                         <!-- Tab Browse -->
                         <div class="tab-pane" id="browse">
@@ -186,11 +271,11 @@
                             </div>
 
                         </div><!-- Status -->
-                        
-                        
-                        
+
+
+
                         <div class="tab-pane" id="automation"><!-- Tab Feedback --> 
-                            
+
                             <div class="form-group required"><!-- Status -->
                                 <label class="col-sm-2 control-label"><span data-toggle="tooltip" data-html="true" title="{{ help_ml_feedback_status }}">{{ entry_ml_feedback_status }}</span></label>
                                 <div class="col-sm-10">
@@ -208,9 +293,9 @@
                                     </select>
                                 </div>
                             </div><!-- Status -->  
- 
-                            
-                             <div class="form-group required"><!-- Status -->
+
+
+                            <div class="form-group required"><!-- Status -->
                                 <label class="col-sm-2 control-label"><span data-toggle="tooltip" data-html="true" title="{{ help_ml_feedback_status_post }}">{{ entry_ml_feedback_status_post }}</span></label>
                                 <div class="col-sm-10">
                                     <select name="module_opencartml_feedback_status_post" class="form-control">
@@ -228,9 +313,9 @@
                                 </div>
                             </div><!-- Status -->  
 
-                            
-                     
-                                <div class="form-group required"><!-- Status -->
+
+
+                            <div class="form-group required"><!-- Status -->
                                 <label class="col-sm-2 control-label"><span data-toggle="tooltip" data-html="true" title="{{ help_ml_feedback_rating }}">{{ entry_ml_feedback_rating }}</span></label>
                                 <div class="col-sm-10">
                                     <select name="module_opencartml_feedback_rating" class="form-control">
@@ -247,9 +332,9 @@
                                     </select>
                                 </div>
                             </div><!-- Status -->                          
-                            
-                            
-                             <div class="form-group">
+
+
+                            <div class="form-group">
                                 <label class="col-sm-2 control-label" for="input-description1">{{ entry_ml_feedback_message }}</label>
                                 <div class="col-sm-10">
                                     <textarea name="module_opencartml_feedback_message" placeholder="Description" id="input-feedback" data-toggle="none" data-lang="" class="form-control">
@@ -257,181 +342,116 @@
                                 </div>
                             </div>                                                      
                         </div><!-- Tab Feedback -->   
-                        
-                        
-       <div class="tab-pane" id="orders">
-            
-              <!-- Aguardando Pagamento -->
-              <div class="form-group">
-                <label class="col-sm-2 control-label"><span data-toggle="tooltip" data-html="true" title="{{ help_aguardando_pagamento }}">{{ entry_aguardando_pagamento }}</span></label>
-                <div class="col-sm-10">
-                  <select name="payment_pagseguro_aguardando_pagamento" class="form-control">
-                  {% for status in statuses %}
-                  {% if payment_pagseguro_aguardando_pagamento == status.order_status_id %}
-                  <option value="{{ status.order_status_id }}" selected>{{ status.name }}</option>
-                  {% else %}
-                  <option value="{{ status.order_status_id }}">{{ status.name }}</option>
-                  {% endif %}
-                  {% endfor %}
-                  </select>
-                </div>
-              </div>
-              
-              <!-- Em Análise -->
-              <div class="form-group">
-                <label class="col-sm-2 control-label"><span data-toggle="tooltip" data-html="true" title="{{ help_analise }}">{{ entry_analise }}</span></label>
-                <div class="col-sm-10">
-                  <select name="payment_pagseguro_analise" class="form-control">
-                    {% for status in statuses %}
-                    {% if payment_pagseguro_analise == status.order_status_id %}
-                    <option value="{{ status.order_status_id }}" selected>{{ status.name }}</option>
-                    {% else %}
-                    <option value="{{ status.order_status_id }}">{{ status.name }}</option>
-                    {% endif %}
-                    {% endfor %}
-                  </select>
-                </div>
-              </div>
-              
-              <!-- Pago -->
-              <div class="form-group">
-                <label class="col-sm-2 control-label"><span data-toggle="tooltip" data-html="true" title="{{ help_pago }}">{{ entry_pago }}</span></label>
-                <div class="col-sm-10">
-                  <select name="payment_pagseguro_paga" class="form-control">
-                    {% for status in statuses %}
-                    {% if payment_pagseguro_paga == status.order_status_id %}
-                    <option value="{{ status.order_status_id }}" selected>{{ status.name }}</option>
-                    {% else %}
-                    <option value="{{ status.order_status_id }}">{{ status.name }}</option>
-                    {% endif %}
-                    {% endfor %}
-                  </select>
-                </div>
-              </div>
-              
-              <!-- Disponível -->
-              <div class="form-group">
-                <label class="col-sm-2 control-label"><span data-toggle="tooltip" data-html="true" title="{{ help_disponivel }}">{{ entry_disponivel }}</span></label>
-                <div class="col-sm-10">
-                  <select name="payment_pagseguro_disponivel" class="form-control">
-                    {% for status in statuses %}
-                    {% if payment_pagseguro_disponivel == status.order_status_id %}
-                    <option value="{{ status.order_status_id }}" selected>{{ status.name }}</option>
-                    {% else %}
-                    <option value="{{ status.order_status_id }}">{{ status.name }}</option>
-                    {% endif %}
-                    {% endfor %}
-                  </select>
-                </div>
-              </div>
-              
-              <!-- Disputa -->
-              <div class="form-group">
-                <label class="col-sm-2 control-label"><span data-toggle="tooltip" data-html="true" title="{{ help_disputa }}">{{ entry_disputa }}</span></label>
-                <div class="col-sm-10">
-                  <select name="payment_pagseguro_disputa" class="form-control">
-                    {% for status in statuses %}
-                    {% if payment_pagseguro_disputa == status.order_status_id %}
-                    <option value="{{ status.order_status_id }}" selected>{{ status.name }}</option>
-                    {% else %}
-                    <option value="{{ status.order_status_id }}">{{ status.name }}</option>
-                    {% endif %}
-                    {% endfor %}
-                  </select>
-                </div>
-              </div>
-              
-              <!-- Devolvida -->
-              <div class="form-group">
-                <label class="col-sm-2 control-label"><span data-toggle="tooltip" data-html="true" title="{{ help_devolvida }}">{{ entry_devolvido }}</span></label>
-                <div class="col-sm-10">
-                  <select name="payment_pagseguro_devolvida" class="form-control">
-                    {% for status in statuses %}
-                    {% if payment_pagseguro_devolvida == status.order_status_id %}
-                    <option value="{{ status.order_status_id }}" selected>{{ status.name }}</option>
-                    {% else %}
-                    <option value="{{ status.order_status_id }}">{{ status.name }}</option>
-                    {% endif %}
-                    {% endfor %}
-                  </select>
-                </div>
-              </div>
-              
-              <!-- Cancelada -->
-              <div class="form-group">
-                <label class="col-sm-2 control-label"><span data-toggle="tooltip" data-html="true" title="{{ entry_cancelada }}">{{ entry_cancelada }}</span></label>
-                <div class="col-sm-10">
-                  <select name="payment_pagseguro_cancelada" class="form-control">
-                   {% for status in statuses %}
-                   {% if payment_pagseguro_cancelada == status.order_status_id %}
-                   <option value="{{ status.order_status_id }}" selected>{{ status.name }}</option>
-                   {% else %}
-                   <option value="{{ status.order_status_id }}">{{ status.name }}</option>
-                   {% endif %}
-                   {% endfor %}
-                  </select>
-                </div>
-              </div>
-            </div>
 
-            <!-- Tab Área Geográfica e Ordem -->
-            <div class="tab-pane" id="area">
-            
-              <!-- Zona Geográfica -->
-              <div class="form-group">
-                <label class="col-sm-2 control-label">{{ entry_geo_zone }}</label>
-                <div class="col-sm-10">
-                  <select name="payment_pagseguro_geo_zone" class="form-control">
-                    <option value="0">{{ text_all_zones }}</option>
-                    {% for zone in zones %}
-                    {% if payment_pagseguro_geo_zone == zone.geo_zone_id %}
-                    <option value="{{ status.geo_zone_id }}" selected>{{ zone.name }}</option>
-                    {% else %}
-                    <option value="{{ status.geo_zone_id }}">{{ zone.name }}</option>
-                    {% endif %}
-                    {% endfor %}
-                  </select>
-                </div>
-              </div>
-            
-              <!-- Sort Order -->
-              <div class="form-group">
-                <label class="col-sm-2 control-label">{{ entry_sort_order }}</label>
-                <div class="col-sm-10">
-                  <input type="text" name="payment_pagseguro_sort_order" value="{{ payment_pagseguro_sort_order }}" class="form-control" />
-                </div>
-              </div>
-            </div>
 
-            <!-- Tab Parcelas -->
-            <div class="tab-pane" id="plots">
-            
-              <!-- Quantidade Total de Parcelas -->
-              <div class="form-group required">
-                <label class="col-sm-2 control-label"><span data-toggle="tooltip" data-html="true" title="{{ help_exemplo_parcela }}">{{ entry_qnt_parcelas }}</span></label>
-                <div class="col-sm-10">
-                  <input type="text" name="payment_pagseguro_qnt_parcelas" value="{{ payment_pagseguro_qnt_parcelas }}" class="form-control" />
-                  {% if error_qnt_parcela %}
-                  <div class="text-danger">{{ error_qnt_parcela }}</div>
-                  {% endif %}
-                </div>
-              </div>
-              
-              <!-- Quantidade de Parcelas sem Juros -->
-              <div class="form-group required">
-                <label class="col-sm-2 control-label"><span data-toggle="tooltip" data-html="true" title="{{ help_parcela_sem_juros }}">{{ entry_parcelas_sem_juros }}</span></label>
-                <div class="col-sm-10">
-                  <input type="text" name="payment_pagseguro_parcelas_sem_juros" value="{{ payment_pagseguro_parcelas_sem_juros }}" class="form-control" />
-                  {% if error_parcelas_sem_juros %}
-                  <div class="text-danger">{{ error_parcelas_sem_juros }}</div>
-                  {% endif %}
-                </div>
-              </div>
-            </div>              
-                        
-                        
-                        
-                        
+                        <div class="tab-pane" id="orders">
+
+                            <!-- Aguardando Pagamento -->
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label"><span data-toggle="tooltip" data-html="true" title="{{ help_ml_aguardando_pagamento }}">{{ entry_ml_aguardando_pagamento }}</span></label>
+                                <div class="col-sm-10">
+                                    <select name="module_opencartml_aguardando_pagamento" class="form-control">
+                                        {% for status in statuses %}
+                                            {% if module_opencartml_aguardando_pagamento == status.order_status_id %}
+                                                <option value="{{ status.order_status_id }}" selected>{{ status.name }}</option>
+                                            {% else %}
+                                                <option value="{{ status.order_status_id }}">{{ status.name }}</option>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+
+                            <!-- Em Análise -->
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label"><span data-toggle="tooltip" data-html="true" title="{{ help_ml_analise }}">{{ entry_ml_analise }}</span></label>
+                                <div class="col-sm-10">
+                                    <select name="module_opencartml_analise" class="form-control">
+                                        {% for status in statuses %}
+                                            {% if module_opencartml_analise == status.order_status_id %}
+                                                <option value="{{ status.order_status_id }}" selected>{{ status.name }}</option>
+                                            {% else %}
+                                                <option value="{{ status.order_status_id }}">{{ status.name }}</option>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+
+                            <!-- Pago -->
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label"><span data-toggle="tooltip" data-html="true" title="{{ help_ml_completed }}">{{ entry_ml_completed }}</span></label>
+                                <div class="col-sm-10">
+                                    <select name="module_opencartml_completed" class="form-control">
+                                        {% for status in statuses %}
+                                            {% if module_opencartml_completed == status.order_status_id %}
+                                                <option value="{{ status.order_status_id }}" selected>{{ status.name }}</option>
+                                            {% else %}
+                                                <option value="{{ status.order_status_id }}">{{ status.name }}</option>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+
+                            <!-- Disponível -->
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label"><span data-toggle="tooltip" data-html="true" title="{{ help_ml_shiped }}">{{ entry_ml_shiped }}</span></label>
+                                <div class="col-sm-10">
+                                    <select name="module_opencartml_shiped" class="form-control">
+                                        {% for status in statuses %}
+                                            {% if module_opencartml_shiped == status.order_status_id %}
+                                                <option value="{{ status.order_status_id }}" selected>{{ status.name }}</option>
+                                            {% else %}
+                                                <option value="{{ status.order_status_id }}">{{ status.name }}</option>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+
+
+                            <!-- Devolvida -->
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label"><span data-toggle="tooltip" data-html="true" title="{{ help_ml_delivered }}">{{ entry_ml_delivered }}</span></label>
+                                <div class="col-sm-10">
+                                    <select name="module_opencartml_delivered" class="form-control">
+                                        {% for status in statuses %}
+                                            {% if module_opencartml_delivered == status.order_status_id %}
+                                                <option value="{{ status.order_status_id }}" selected>{{ status.name }}</option>
+                                            {% else %}
+                                                <option value="{{ status.order_status_id }}">{{ status.name }}</option>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+
+                            <!-- Cancelada -->
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label"><span data-toggle="tooltip" data-html="true" title="{{ entry_ml_canceled }}">{{ entry_ml_canceled }}</span></label>
+                                <div class="col-sm-10">
+                                    <select name="module_opencartml_canceled" class="form-control">
+                                        {% for status in statuses %}
+                                            {% if module_opencartml_canceled == status.order_status_id %}
+                                                <option value="{{ status.order_status_id }}" selected>{{ status.name }}</option>
+                                            {% else %}
+                                                <option value="{{ status.order_status_id }}">{{ status.name }}</option>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+ 
+ 
+
+          
+
+
+
+
                     </div><!-- tab Content -->
                 </form> <!-- /Form -->   
             </div><!-- /.panel-body -->
