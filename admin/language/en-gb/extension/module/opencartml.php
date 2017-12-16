@@ -15,18 +15,18 @@ $_['text_module']                   = 'Modulo';
 $_['text_success']                  = 'Módulo atualizado com sucesso.';
 $_['text_ml_used']                  = 'Produto Usado';
 $_['text_ml_new']                   = 'Produto Novo';
-
+$_['text_ml_custom_field']          = 'Criar campo';
 
 
 
 //Tab
 $_['tab_config']                    = 'Configuração';
 $_['tab_automate']                  = 'Catalogo';
-$_['tab_order_config']              = 'Opções de vendas';
+$_['tab_order_config']              = 'Notificações';
 $_['tab_listing_config']            = 'Anuncio Padrão';
 $_['tab_template']                  = 'Template';
+$_['tab_ml_menssages']              = 'Mensagens';
 $_['tab_ml_automation']             = 'Feedback';
-
 
 
 
@@ -45,9 +45,23 @@ $_['entry_ml_feedback_status']      = 'Situação';
 $_['entry_ml_feedback_status_post'] = 'Qualificar quando';
 $_['entry_ml_template_default']     = 'Descrição';
 $_['entry_ml_feedback_rating']      = 'Qualificação';
+$_['entry_ml_number']               = 'Numero';
+$_['entry_ml_cpf']                  = 'CPF';
+$_['entry_ml_data_nascimento']      = 'Aniversário';
+$_['entry_ml_url_retorno']          = 'URL de retorno:';
+$_['entry_ml_url_retorno']          = 'URL de retorno:';
+$_['entry_ml_aguardando_pagamento'] = 'Pendente:';
+$_['entry_ml_analise']              = 'Pendente:';
+$_['entry_ml_completed']            = 'Pago:';
+$_['entry_ml_shiped']               = 'Enviado:';
+$_['entry_ml_delivered']            = 'Entregue:';
+$_['entry_ml_canceled']             = 'Cancelada:';
+
 
 //Help
-$_['help_status']                   = 'Habilite ou Desabilite o módulo Mercado Livre)';
+
+
+$_['entry_ml_data_nascimento']      = 'Aniversário';$_['help_status']                   = 'Habilite ou Desabilite o módulo Mercado Livre';
 $_['help_client_id']                = 'APP Id você obtem acessando https://developers.mercadolivre.com.br/apps/home';
 $_['help_client_secret']            = 'E a contra senha você obtem acessando https://developers.mercadolivre.com.br/apps/home';
 $_['help_redirect_uri']             = 'Falta testo';
@@ -62,6 +76,16 @@ $_['help_ml_feedback_status']       = 'Se estiver ligado, qualifica os clientes 
 $_['help_ml_feedback_status_post']  = 'Determina quando o indivíduo deve ser qualificado';
 $_['help_ml_template_default']      = 'Se estiver ligado, qualifica os clientes assim que o produto é enviado';
 $_['help_ml_feedback_rating']       = 'Qualificação que você vai postar automaticamente';
+$_['help_ml_number']                = 'Selecione o campo do cadastro relativo ao numero da rua do cliente, caso não exista clique no botão criar';
+$_['help_ml_cpf']                   = 'Selecione o campo do cadastro relativo ao numero da rua do cliente, caso não exista clique no botão criar';
+$_['help_ml_data_nascimento']       = 'Selecione o campo do cadastro relativo ao numero da rua do cliente, caso não exista clique no botão criar';
+$_['help_ml_aguardando_pagamento']  = 'Selecione o campo do cadastro relativo ao numero da rua do cliente, caso não exista clique no botão criar';
+$_['help_ml_analise']               = 'Selecione o campo do cadastro relativo ao numero da rua do cliente, caso não exista clique no botão criar';
+$_['help_ml_completed']             = 'Pago:';
+$_['help_ml_shiped']                = 'Enviado:';
+$_['help_ml_delivered']             = 'Entregue:';
+$_['help_ml_canceled']              = 'Cancelada:';
+
 
 
 //Error

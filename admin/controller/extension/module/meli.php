@@ -59,6 +59,7 @@ class Meli {
         $this->client_secret = $client_secret;
         $this->access_token = $access_token;
         $this->refresh_token = $refresh_token;
+        $this->
     }
 
     /**

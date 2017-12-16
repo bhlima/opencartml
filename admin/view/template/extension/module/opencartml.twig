@@ -104,7 +104,7 @@
                                 <div class="col-sm-10">
                                     <select name="module_opencartml_status" class="form-control">
                                         {% if module_opencartml_status %}
-                                            <option value="1]" selected>{{ text_enabled }}</option>
+                                            <option value="1" selected>{{ text_enabled }}</option>
                                         {% else %}
                                             <option value="1">{{ text_enabled }}</option>
                                         {% endif %}
@@ -117,19 +117,14 @@
                                 </div>
                             </div>     
 
-
-
-
-
-
                             <!-- Custom Field (Número) -->
                             <div class="form-group required">
                                 <label class="col-sm-2 control-label"><span data-toggle="tooltip" data-html="true" title="{{ help_ml_number }}">{{ entry_ml_number }}</span></label>
                                 <div class="col-sm-10">
                                     <span class="input-group">
-                                        <select name="module_opencartml_number" class="form-control">
+                                        <select name="module_opencartml_ml_number" class="form-control">
                                             {% for custom_field in custom_fields %}
-                                                {% if custom_field.custom_field_id == module_opencartml_number %}
+                                                {% if custom_field.custom_field_id == module_opencartml_ml_number %}
                                                     <option value="{{ custom_field.custom_field_id }}" selected>{{ custom_field.name }}</option>
                                                 {% else %}
                                                     <option value="{{ custom_field.custom_field_id }}">{{ custom_field.name }}</option>
@@ -149,9 +144,9 @@
                                 <label class="col-sm-2 control-label"><span data-toggle="tooltip" data-html="true" title="{{ help_ml_data_nascimento }}">{{ entry_ml_data_nascimento }}</span></label>
                                 <div class="col-sm-10">
                                     <span class="input-group">
-                                        <select name="module_opencartml_data_nascimento" class="form-control">
+                                        <select name="module_opencartml_ml_data_nascimento" class="form-control">
                                             {% for custom_field in custom_fields %}
-                                                {% if custom_field.custom_field_id == module_opencartml_data_nascimento %}
+                                                {% if custom_field.custom_field_id == module_opencartml_ml_data_nascimento %}
                                                     <option value="{{ custom_field.custom_field_id }}" selected>{{ custom_field.name }}</option>
                                                 {% else %}
                                                     <option value="{{ custom_field.custom_field_id }}">{{ custom_field.name }}</option>
@@ -192,7 +187,7 @@
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">{{ entry_ml_url_retorno }}</label>
                                 <div class="col-sm-10">
-                                    <input type="text" disabled value="https://www.MYSTORE.com.br/index.php?route=module/opencartml/callback" class="form-control" />
+                                    <input type="text" disabled value="{{ redirect_url }}" class="form-control" />
                                 </div>
                             </div>
 

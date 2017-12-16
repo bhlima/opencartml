@@ -1,7 +1,7 @@
 <?php
 
 
-require_once '../admin/controller/extension/module/meli.php';
+require_once '../admin/controller/extension/module/opme.php';
 
 class ControllerExtensionModuleOpencartml extends Controller {
 
@@ -22,38 +22,70 @@ class ControllerExtensionModuleOpencartml extends Controller {
         $this->document->setTitle($this->language->get('heading_title'));
         $user_token = $this->session->data['user_token'];
         
+
+        
         if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->validate()) {
             $this->load->model('setting/setting');
-            $this->load->model('localisation/order_status');
+                      
             $this->model_setting_setting->editSetting('module_opencartml', $this->request->post);
             $this->model_setting_setting->editSetting('module_opencartml', [
                 'module_opencartml_status' => $this->request->post['module_opencartml_status'],
                 'module_opencartml_client_id' => $this->request->post['module_opencartml_client_id'],
                 'module_opencartml_client_secret' => $this->request->post['module_opencartml_client_secret'],
                 'module_opencartml_debug' => $this->request->post['module_opencartml_debug'],
-                'module_opencartml_number' => $this->request->post['module_opencartml_number'],                
-                'module_opencartml_cpf' => $this->request->post['module_opencartml_cpf'],                   
-                'module_opencartml_data_nascimento' => $this->request->post['module_opencartml_data_nascimento'],                   
+                'module_opencartml_ml_number' => $this->request->post['module_opencartml_ml_number'],                
+                'module_opencartml_ml_cpf' => $this->request->post['module_opencartml_ml_cpf'],                   
+                'module_opencartml_ml_data_nascimento' => $this->request->post['module_opencartml_ml_data_nascimento'],   
                 
-              
-            ]);
+                
+                'module_opencartml_category' => $this->request->post['module_opencartml_category'],                  
+                'module_opencartml_subcategory' => $this->request->post['module_opencartml_subcategory'],                   
+                'module_opencartml_currency' => $this->request->post['module_opencartml_currency'],                   
+         
+      ]);        
+                        
+                        
             $this->session->data['success'] = $this->language->get('text_success');
             $this->response->redirect($this->url->link('marketplace/extension', 'user_token=' . $user_token, true));            
-
+                                         
             }
+            
+
+
+
+        $obj_teste = new Opme($this->config->get('module_opencartml_client_id'), $this->config->get('module_opencartml_client_secret'));
+        //$result = $obj_teste->hello();
+        $uls = $obj_teste->getAuthUrl($this->url->link('extension/module/opencartml', 'user_token=' . $user_token, true));
+        $params = array();
+        $urw = '/sites/MLB';
+        $result = $obj_teste->get($urw, $params);
  
-            		/* Load Models */
+        
+        //echo $uls;
+        print_r($result);
+        exit();
+
+
+
+
+        /**
+             * Load Library custom meli
+             */
+           // $this->load>library('Meli');         
             
-                $meli = new Meli($this->config->get('module_opencartml_client_id'), $this->config->get('module_opencartml_client_secret'));
+            //$obj_meli->helloword();
             
-		$this->load->model('localisation/order_status');
-		$this->load->model('localisation/geo_zone');
-		$this->load->model('customer/custom_field');
+            //$result = $obj_meli->helloword();           
+            //echo $result;
+            //exit();
             
+            //* Load Models */          
+            $this->load->model('localisation/order_status');
+            $this->load->model('customer/custom_field');
+            $this->load->model('localisation/order_status');           
+            $this->load->model('localisation/currency');           
             
-            
-            
-            
+                      
             
         /* Warning */
         if (isset($this->error['warning'])) {
@@ -61,8 +93,7 @@ class ControllerExtensionModuleOpencartml extends Controller {
         } else {
             $data['warning'] = false;
         }
-
-        
+       
         
         
         /* Error Token */
@@ -72,6 +103,8 @@ class ControllerExtensionModuleOpencartml extends Controller {
             $data['error_token'] = false;
         }
 
+    
+        
         $data['breadcrumbs'] = array();
 
         $data['breadcrumbs'][] = array(
@@ -88,6 +121,9 @@ class ControllerExtensionModuleOpencartml extends Controller {
             'href' => $this->url->link('extension/module/opencartml', 'user_token=' . $user_token, true),
             'name' => $this->language->get('heading_title')
         );
+        
+        
+        
 
         /* Status */
         if (isset($this->request->post['module_opencartml_status'])) {
@@ -111,17 +147,17 @@ class ControllerExtensionModuleOpencartml extends Controller {
         }
 
          /* Client_custom field numero */
-        if (isset($this->request->post['module_opencartml_number'])) {
-            $data['module_opencartml_number'] = $this->request->post['module_opencartml_number'];
+        if (isset($this->request->post['module_opencartml_ml_number'])) {
+            $data['module_opencartml_ml_number'] = $this->request->post['module_opencartml_ml_number'];
         } else {
-            $data['module_opencartml_number'] = $this->config->get('module_opencartml_number');
+            $data['module_opencartml_ml_number'] = $this->config->get('module_opencartml_ml_number');
         }       
         
           /* Client_custom field numero */
-        if (isset($this->request->post['module_opencartml_data_nascimento'])) {
-            $data['module_opencartml_data_nascimento'] = $this->request->post['module_opencartml_data_nascimento'];
+        if (isset($this->request->post['module_opencartml_ml_data_nascimento'])) {
+            $data['module_opencartml_ml_data_nascimento'] = $this->request->post['module_opencartml_ml_data_nascimento'];
         } else {
-            $data['module_opencartml_data_nascimento'] = $this->config->get('module_opencartml_data_nascimento');
+            $data['module_opencartml_ml_data_nascimento'] = $this->config->get('module_opencartml_ml_data_nascimento');
         }  
         
            /* Client_custom field numero */
@@ -130,15 +166,7 @@ class ControllerExtensionModuleOpencartml extends Controller {
         } else {
             $data['module_opencartml_ml_cpf'] = $this->config->get('module_opencartml_ml_cpf');
         }         
-        
-        
-        
-        
-        
-        
-        
-        
-        
+      
         /* Debug */
         if (isset($this->request->post['module_opencartml_debug'])) {
             $data['module_opencartml_debug'] = $this->request->post['module_opencartml_debug'];
@@ -169,12 +197,12 @@ $url = '';
         $data['footer'] = $this->load->controller('common/footer');
         $data['link_custom_field'] = $this->url->link('customer/custom_field', 'user_token=' . $user_token, true);
         $data['custom_fields'] = $this->model_customer_custom_field->getCustomFields();
+        $data['currencies'] = $this->model_localisation_currency->getCurrencies();
         $data['statuses'] = $this->model_localisation_order_status->getOrderStatuses();
 	$data['add'] = $this->url->link('module/extension/opencartml/add', 'user_token=' . $this->session->data['user_token'] . $url, true);
         $data['delete'] = $this->url->link('module/extension/opencartml/del', 'user_token=' . $this->session->data['user_token'] . $url, true);       
-        
+        $data['redirect_url'] = $this->url->link('module/extension/opencartml', 'user_token=' . $this->session->data['user_token'] . $url, true);
         $this->response->setOutput($this->load->view('extension/module/opencartml', $data));
-                                
 
     }
 
@@ -186,15 +214,12 @@ $url = '';
         }
 
         /* Client_id */
-        if (strlen($this->request->post['module_opencartml_client_id']) < 16) {
+        if (strlen($this->request->post['module_opencartml_client_id']) < 10) {
             $this->error['client_id'] = $this->language->get('error_client_id');
         } 
         
-
-		
-
         /* Client_id */
-        if (strlen($this->request->post['module_opencartml_client_secret']) < 64) {
+        if (strlen($this->request->post['module_opencartml_client_secret']) < 10) {
             $this->error['client_secret'] = $this->language->get('error_client_secret');
 
         }
@@ -204,50 +229,7 @@ $url = '';
     }
     
     
-    // Método get list - Identica a função do sistema
-    // Estou escrendo este modulo de teste não será implementado   
-    	public function getListStatusOrder() {          
-            $sort = 'name';
-            $order = 'ASC';
-            
-            
-		$data['order_statuses'] = array();
-		$filter_data = array(
-			'sort'  => $sort,
-			'order' => $order,
-			'start' => 0,
-			'limit' => $this->config->get('config_limit_admin')
-		);
-		$results = $this->model_localisation_order_status->getOrderStatuses($filter_data);
-		foreach ($results as $result) {
-			$data['order_statuses'][] = array(
-				'order_status_id' => $result['order_status_id'],
-				'name'            => $result['name'] . (($result['order_status_id'] == $this->config->get('config_order_status_id')) ? $this->language->get('text_default') : null)
-			);
-		}
-		$data['sort'] = $sort;
-		$data['order'] = $order;
-	}  // Final do metodo
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+   
     
 
     public function install() {
@@ -255,7 +237,7 @@ $url = '';
     }
 
     public function uninstall() {
-        $this->db->query("DELETE FROM `" . DB_PREFIX . "extension` WHERE `code` = 'opencartml';");
+		$this->db->query("DELETE FROM `" . DB_PREFIX . "extension` WHERE `code` = 'opencartml';");
     }
 
 }
