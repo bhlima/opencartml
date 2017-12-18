@@ -11,6 +11,7 @@ class Opme {
      *  Reescrendo meli porque a original não instancia nem a pau.
      */
     const VERSION = "1.1.0";
+    
 
     /**
      * @var $API_ROOT_URL is a main URL to access the Meli API's.
@@ -49,18 +50,14 @@ class Opme {
      * Metodo Construtor
      * @return string
      */
-    public function __construct($client_id, $client_secret, $access_token = null, $refresh_token = null) {
+    public function __construct($client_id, $client_secret, $redirect_uri, $access_token = null, $refresh_token = null) {
         $this->client_id = $client_id;
         $this->client_secret = $client_secret;
         $this->access_token = $access_token;
         $this->refresh_token = $refresh_token;
+        $this->redirect_uri = $redirect_uri;
     }
 
-    public function hello() {
-        $buceta['1'] = $this->client_id;
-        $buceta['2'] = $this->client_secret;
-        return $buceta;
-    }
 
     /**
      * 
@@ -75,9 +72,7 @@ class Opme {
         return $auth_uri;
     }
 
-    
-    
-    /**
+     /**
      * 
      * @param type $path
      * @param type $params
@@ -88,9 +83,7 @@ class Opme {
         $exec = $this->execute($path, null, $params, $assoc);
         return $exec;
     }
-
-    
-    
+      
     /**
      * 
      * @param type $code
@@ -154,10 +147,6 @@ class Opme {
         return $return;
     }
 
-    
-    
-    
-    
         /**
      * Check and construct an real URL to make request
      * 
@@ -186,9 +175,5 @@ class Opme {
         }
 
         return $uri;
-    }
-    
-    
-    
-    
+    }  
 }

@@ -1,101 +1,75 @@
 <?php
 
-
+/**
+ * Controlle principal OpencartML 
+ * Versão 1.0 
+ * Situação: Production
+ * Autor / Flavio Lima  bhlims2 gmail com
+ */
 require_once '../admin/controller/extension/module/opme.php';
 
 class ControllerExtensionModuleOpencartml extends Controller {
 
-    
     private $error = array();
     private $opme;
     public $siteId = 'MLB';
-    public $redirectURI ;
-    public $secretkey ;
-    
+    public $redirectURI;
+    public $secretkey;
 
-  
-    
     public function index() {
 
         /* Carrega idioma */
         $data = $this->load->language('extension/module/opencartml');
         $this->document->setTitle($this->language->get('heading_title'));
         $user_token = $this->session->data['user_token'];
-        
 
-        
         if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->validate()) {
             $this->load->model('setting/setting');
-                      
+
             $this->model_setting_setting->editSetting('module_opencartml', $this->request->post);
             $this->model_setting_setting->editSetting('module_opencartml', [
                 'module_opencartml_status' => $this->request->post['module_opencartml_status'],
                 'module_opencartml_client_id' => $this->request->post['module_opencartml_client_id'],
                 'module_opencartml_client_secret' => $this->request->post['module_opencartml_client_secret'],
                 'module_opencartml_debug' => $this->request->post['module_opencartml_debug'],
-                'module_opencartml_ml_number' => $this->request->post['module_opencartml_ml_number'],                
-                'module_opencartml_ml_cpf' => $this->request->post['module_opencartml_ml_cpf'],                   
-                'module_opencartml_ml_data_nascimento' => $this->request->post['module_opencartml_ml_data_nascimento'],   
-                
-                
-                'module_opencartml_category' => $this->request->post['module_opencartml_category'],                  
-                'module_opencartml_subcategory' => $this->request->post['module_opencartml_subcategory'],                   
-                'module_opencartml_currency' => $this->request->post['module_opencartml_currency'],                   
-         
-      ]);        
-                        
-                        
+                'module_opencartml_ml_number' => $this->request->post['module_opencartml_ml_number'],
+                'module_opencartml_ml_cpf' => $this->request->post['module_opencartml_ml_cpf'],
+                'module_opencartml_ml_data_nascimento' => $this->request->post['module_opencartml_ml_data_nascimento'],
+                'module_opencartml_category' => $this->request->post['module_opencartml_category'],
+                'module_opencartml_subcategory' => $this->request->post['module_opencartml_subcategory'],
+                'module_opencartml_currency' => $this->request->post['module_opencartml_currency'],
+            ]);
+
             $this->session->data['success'] = $this->language->get('text_success');
-            $this->response->redirect($this->url->link('marketplace/extension', 'user_token=' . $user_token, true));            
-                                         
-            }
+            $this->response->redirect($this->url->link('marketplace/extension', 'user_token=' . $user_token, true));
+        }
+
+            $par1 = $this->config->get('module_opencartml_client_id');
+            $par2 = $this->config->get('module_opencartml_client_secret');
+            $par3 = 'https://nicbit.com.br/index.php?route=extension/module/opencartml/opcall';
+            $opme = new Opme($par1, $par2, $par3);
+            $data['auth_link'] = $opme->getAuthUrl($par3);
+
             
-
-
-
-        $obj_teste = new Opme($this->config->get('module_opencartml_client_id'), $this->config->get('module_opencartml_client_secret'));
-        //$result = $obj_teste->hello();
-        $uls = $obj_teste->getAuthUrl($this->url->link('extension/module/opencartml', 'user_token=' . $user_token, true));
-        $params = array();
-        $urw = '/sites/MLB';
-        $result = $obj_teste->get($urw, $params);
- 
-        
-        //echo $uls;
-        print_r($result);
-        exit();
-
-
-
-
-        /**
-             * Load Library custom meli
-             */
-           // $this->load>library('Meli');         
             
-            //$obj_meli->helloword();
             
-            //$result = $obj_meli->helloword();           
-            //echo $result;
-            //exit();
-            
-            //* Load Models */          
-            $this->load->model('localisation/order_status');
-            $this->load->model('customer/custom_field');
-            $this->load->model('localisation/order_status');           
-            $this->load->model('localisation/currency');           
-            
-                      
-            
+        //* Load Models */          
+        $this->load->model('localisation/order_status');
+        $this->load->model('customer/custom_field');
+        $this->load->model('localisation/order_status');
+        $this->load->model('localisation/currency');
+
+
+
         /* Warning */
         if (isset($this->error['warning'])) {
             $data['warning'] = $this->error['warning'];
         } else {
             $data['warning'] = false;
         }
-       
-        
-        
+
+
+
         /* Error Token */
         if (isset($this->error['token'])) {
             $data['error_token'] = $this->error['token'];
@@ -103,8 +77,8 @@ class ControllerExtensionModuleOpencartml extends Controller {
             $data['error_token'] = false;
         }
 
-    
-        
+
+
         $data['breadcrumbs'] = array();
 
         $data['breadcrumbs'][] = array(
@@ -121,9 +95,9 @@ class ControllerExtensionModuleOpencartml extends Controller {
             'href' => $this->url->link('extension/module/opencartml', 'user_token=' . $user_token, true),
             'name' => $this->language->get('heading_title')
         );
-        
-        
-        
+
+
+
 
         /* Status */
         if (isset($this->request->post['module_opencartml_status'])) {
@@ -146,27 +120,27 @@ class ControllerExtensionModuleOpencartml extends Controller {
             $data['module_opencartml_client_secret'] = $this->config->get('module_opencartml_client_secret');
         }
 
-         /* Client_custom field numero */
+        /* Client_custom field numero */
         if (isset($this->request->post['module_opencartml_ml_number'])) {
             $data['module_opencartml_ml_number'] = $this->request->post['module_opencartml_ml_number'];
         } else {
             $data['module_opencartml_ml_number'] = $this->config->get('module_opencartml_ml_number');
-        }       
-        
-          /* Client_custom field numero */
+        }
+
+        /* Client_custom field numero */
         if (isset($this->request->post['module_opencartml_ml_data_nascimento'])) {
             $data['module_opencartml_ml_data_nascimento'] = $this->request->post['module_opencartml_ml_data_nascimento'];
         } else {
             $data['module_opencartml_ml_data_nascimento'] = $this->config->get('module_opencartml_ml_data_nascimento');
-        }  
-        
-           /* Client_custom field numero */
+        }
+
+        /* Client_custom field numero */
         if (isset($this->request->post['module_opencartml_ml_cpf'])) {
             $data['module_opencartml_ml_cpf'] = $this->request->post['module_opencartml_ml_cpf'];
         } else {
             $data['module_opencartml_ml_cpf'] = $this->config->get('module_opencartml_ml_cpf');
-        }         
-      
+        }
+
         /* Debug */
         if (isset($this->request->post['module_opencartml_debug'])) {
             $data['module_opencartml_debug'] = $this->request->post['module_opencartml_debug'];
@@ -186,9 +160,9 @@ class ControllerExtensionModuleOpencartml extends Controller {
         } else {
             $data['debug'] = array();
         }
-        
-        
-$url = '';
+
+
+        $url = '';
         /* Links */
         $data['action'] = $this->url->link('extension/module/opencartml', 'user_token=' . $user_token, true);
         $data['cancel'] = $this->url->link('extension/extension', 'user_token=' . $user_token, true);
@@ -199,11 +173,12 @@ $url = '';
         $data['custom_fields'] = $this->model_customer_custom_field->getCustomFields();
         $data['currencies'] = $this->model_localisation_currency->getCurrencies();
         $data['statuses'] = $this->model_localisation_order_status->getOrderStatuses();
-	$data['add'] = $this->url->link('module/extension/opencartml/add', 'user_token=' . $this->session->data['user_token'] . $url, true);
-        $data['delete'] = $this->url->link('module/extension/opencartml/del', 'user_token=' . $this->session->data['user_token'] . $url, true);       
+        $data['add'] = $this->url->link('module/extension/opencartml/add', 'user_token=' . $this->session->data['user_token'] . $url, true);
+        $data['delete'] = $this->url->link('module/extension/opencartml/del', 'user_token=' . $this->session->data['user_token'] . $url, true);
         $data['redirect_url'] = $this->url->link('module/extension/opencartml', 'user_token=' . $this->session->data['user_token'] . $url, true);
-        $this->response->setOutput($this->load->view('extension/module/opencartml', $data));
+        $data['auth_code'] = $this->config->get('module_opencartml_auth');
 
+        $this->response->setOutput($this->load->view('extension/module/opencartml', $data));
     }
 
     public function validate() {
@@ -216,28 +191,23 @@ $url = '';
         /* Client_id */
         if (strlen($this->request->post['module_opencartml_client_id']) < 10) {
             $this->error['client_id'] = $this->language->get('error_client_id');
-        } 
-        
+        }
+
         /* Client_id */
         if (strlen($this->request->post['module_opencartml_client_secret']) < 10) {
             $this->error['client_secret'] = $this->language->get('error_client_secret');
-
         }
 
 
         return !$this->error;
     }
-    
-    
-   
-    
 
     public function install() {
         $this->db->query("INSERT INTO `" . DB_PREFIX . "extension` (`type`, `code`) VALUES ('module', 'opencartml') ");
     }
 
     public function uninstall() {
-		$this->db->query("DELETE FROM `" . DB_PREFIX . "extension` WHERE `code` = 'opencartml';");
+        $this->db->query("DELETE FROM `" . DB_PREFIX . "extension` WHERE `code` = 'opencartml';");
     }
 
 }

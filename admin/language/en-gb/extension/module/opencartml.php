@@ -11,12 +11,17 @@
 $_['heading_title']                 = 'Opencart Mercadolivre';
 
 //Text
+$_['text_ml_logo_bg']                = '<img src="view/image/payment/pagseguro.png" />';
+
+
 $_['text_module']                   = 'Modulo';
 $_['text_success']                  = 'Módulo atualizado com sucesso.';
 $_['text_ml_used']                  = 'Produto Usado';
-$_['text_ml_new']                   = 'Produto Novo';
 $_['text_ml_custom_field']          = 'Criar campo';
-
+$_['text_ml_new']                   = 'Produto Novo';
+$_['text_ml_autorization']          = 'Após clicar no botão autorização você será redirecionado para a loja, será necessário logar novamente!';
+$_['text_ml_b_auth']                = 'Autorizar no Mercado Livre';
+$_['text_ml_authorized']            = 'Você já esta autorizado';
 
 
 //Tab
@@ -27,7 +32,7 @@ $_['tab_listing_config']            = 'Anuncio Padrão';
 $_['tab_template']                  = 'Template';
 $_['tab_ml_menssages']              = 'Mensagens';
 $_['tab_ml_automation']             = 'Feedback';
-
+$_['tab_ml_autorization']           = 'Autorização';
 
 
 //Entry

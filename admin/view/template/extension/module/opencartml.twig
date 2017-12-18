@@ -40,7 +40,6 @@
 
             <!-- Body -->
             <div class="panel-body">
-
                 <!-- Nav -->
                 <ul class="nav nav-tabs">
                     <li><a data-toggle="tab" href="#config">{{ tab_config }}</a></li>
@@ -49,6 +48,7 @@
                     <li><a data-toggle="tab" href="#orders">{{ tab_order_config }}</a></li>
                     <li><a data-toggle="tab" href="#messages">{{ tab_ml_menssages }}</a></li>
                     <li><a data-toggle="tab" href="#templates">{{ tab_template }}</a></li>
+                    <li><a data-toggle="tab" href="#autorization">{{ tab_ml_autorization }}</a></li>
                 </ul>
 
 
@@ -71,10 +71,12 @@
                             <div class="form-group required">
                                 <label class="col-sm-2 control-label"><span data-toggle="tooltip" data-html="true" title="{{ help_client_secret }}">{{ entry_client_secret }}</span></label>
                                 <div class="col-sm-10">
+
                                     <input name="module_opencartml_client_secret" type="text" class="form-control" value="{{ module_opencartml_client_secret }}" />
                                     {% if client_secret %}
                                         <div class="text-danger">{{ client_secret }}</div>
-                                    {% endif %}
+                                    {% endif %}                             
+
                                 </div>
                             </div>
 
@@ -439,15 +441,37 @@
                             </div>
                         </div>
 
- 
- 
+                        <div class="tab-pane" id="autorization">
+                            <div class="form-group">
+                                <div class="col-sm-10">
+                                    <div class="alert alert-info">
+                                        <i class="fa fa-info-circle"></i>
+                                        {{ text_ml_autorization }}
+                                    </div>
+                                </div>
+                            </div>
 
-          
+                                        <div class="form-group">
+
+                                            <div class="col-sm-10">
+                                                {% if auth_code %}
+                                                        <p>Você Já esta autorizado :: {{ auth_code }}</p>
+                              
+                                                {% else %}    
+                                                    <span class="input-group-btn">
+                                                        <a href="{{ auth_link }}" class="btn btn-primary">{{ text_ml_b_auth }}</a>
+                                                    </span>
+                                                {% endif %}
+                                            </div>
+                                        </div>
 
 
 
 
-                    </div><!-- tab Content -->
+
+
+
+                        </div><!-- tab Content -->
                 </form> <!-- /Form -->   
             </div><!-- /.panel-body -->
         </div><!-- /.panel.panel-default -->
