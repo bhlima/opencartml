@@ -47,18 +47,22 @@ class ControllerExtensionModuleOpencartml extends Controller {
             $par1 = $this->config->get('module_opencartml_client_id');
             $par2 = $this->config->get('module_opencartml_client_secret');
             $par3 = 'https://nicbit.com.br/index.php?route=extension/module/opencartml/opcall';
+            $par4 = $this->config->get('module_opencartml_auth');
             $opme = new Opme($par1, $par2, $par3);
+            
+    //        
             $data['auth_link'] = $opme->getAuthUrl($par3);
-
+            $retorno = $opme->authorize($par4, $par3);
             
-            
-            
+   print_r($retorno);
+   echo $par4;
+   exit();
+       
         //* Load Models */          
         $this->load->model('localisation/order_status');
         $this->load->model('customer/custom_field');
         $this->load->model('localisation/order_status');
         $this->load->model('localisation/currency');
-
 
 
         /* Warning */

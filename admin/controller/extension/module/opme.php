@@ -83,7 +83,8 @@ class Opme {
         $exec = $this->execute($path, null, $params, $assoc);
         return $exec;
     }
-      
+
+       
     /**
      * 
      * @param type $code
@@ -92,17 +93,18 @@ class Opme {
      */
     public function authorize($code, $redirect_uri) {
 
-        if ($redirect_uri)
-            $this->redirect_uri = $redirect_uri;
-
         $body = array(
             "grant_type" => "authorization_code",
             "client_id" => $this->client_id,
             "client_secret" => $this->client_secret,
             "code" => $code,
-            "redirect_uri" => $this->redirect_uri
+            "redirect_uri" => $redirect_uri
         );
 
+        
+       // print_r($body);
+       // exit();
+        
         $opts = array(
             CURLOPT_POST => true,
             CURLOPT_POSTFIELDS => $body
@@ -113,15 +115,78 @@ class Opme {
         if ($request["httpCode"] == 200) {
             $this->access_token = $request["body"]->access_token;
 
-            if ($request["body"]->refresh_token)
+            if ($request["body"]->refresh_token) {
                 $this->refresh_token = $request["body"]->refresh_token;
-
+            }
             return $request;
         } else {
             return $request;
         }
     }
 
+    
+    /**
+     * 
+     * @param type $path
+     * @param type $params
+     * @return type
+     */
+       public function options($path, $params = null) {
+        $opts = array(
+            CURLOPT_CUSTOMREQUEST => "OPTIONS"
+        );
+        
+        $exec = $this->execute($path, $opts, $params);
+        return $exec;
+    }
+    
+    
+        /**
+     * Execute a POST Request to create a new AccessToken from a existent refresh_token
+     * 
+     * @return string|mixed
+     */
+    public function refreshAccessToken() {
+        if($this->refresh_token) {
+             $body = array(
+                "grant_type" => "refresh_token", 
+                "client_id" => $this->client_id, 
+                "client_secret" => $this->client_secret, 
+                "refresh_token" => $this->refresh_token
+            );
+            $opts = array(
+                CURLOPT_POST => true, 
+                CURLOPT_POSTFIELDS => $body
+            );
+        
+            $request = $this->execute(self::$OAUTH_URL, $opts);
+            if($request["httpCode"] == 200) {             
+                $this->access_token = $request["body"]->access_token;
+                if($request["body"]->refresh_token)
+                    $this->refresh_token = $request["body"]->refresh_token;
+                return $request;
+            } else {
+                return $request;
+            }   
+        } else {
+            $result = array(
+                'error' => 'Offline-Access is not allowed.',
+                'httpCode'  => null
+            );
+            return $result;
+        }        
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     /**
      * 
      * @param type $path
@@ -132,7 +197,11 @@ class Opme {
      */
     public function execute($path, $opts = array(), $params = array(), $assoc = false) {
         $uri = $this->make_path($path, $params);
-
+        
+        //print_r($uri);
+        //exit();
+        
+        
         $ch = curl_init($uri);
         curl_setopt_array($ch, self::$CURL_OPTS);
 
@@ -147,6 +216,10 @@ class Opme {
         return $return;
     }
 
+    
+    
+    
+    
         /**
      * Check and construct an real URL to make request
      * 
@@ -175,5 +248,9 @@ class Opme {
         }
 
         return $uri;
-    }  
+    }
+    
+    
+    
+    
 }
