@@ -19,10 +19,10 @@ $_['text_success']                  = 'Módulo atualizado com sucesso.';
 $_['text_ml_used']                  = 'Produto Usado';
 $_['text_ml_custom_field']          = 'Criar campo';
 $_['text_ml_new']                   = 'Produto Novo';
-$_['text_ml_autorization']          = 'Após clicar no botão autorização você será redirecionado para a loja, será necessário logar novamente!';
+$_['text_ml_autorization']          = 'Você ainda não autorizou este site a operar com o Mercado Livre, clique no botão abaixo para obter autorização';
 $_['text_ml_b_auth']                = 'Autorizar no Mercado Livre';
 $_['text_ml_authorized']            = 'Você já esta autorizado';
-
+$_['text_ml_grant_access']          = 'Este site já esta autorizado a operar com mercado livre, confira abaixo detalhes da autorizaação';
 
 //Tab
 $_['tab_config']                    = 'Configuração';
