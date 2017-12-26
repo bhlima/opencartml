@@ -65,6 +65,22 @@ class Opme {
      * @param type $auth_url
      * @return string
      */
+    
+    
+    public function PutToken($access_token){
+        $this->access_token = $access_token;
+                return;
+    }
+    
+     public function PutRefresh($refresh_token){
+        $this->refresh_token = $refresh_token;
+                return;
+    }   
+    
+    
+    
+    
+    
     public function getAuthUrl($redirect_uri) {
         $this->redirect_uri = $redirect_uri;
         $params = array("client_id" => $this->client_id, "response_type" => "code", "redirect_uri" => $redirect_uri);

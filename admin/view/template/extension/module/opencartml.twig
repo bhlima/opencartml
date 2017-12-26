@@ -189,27 +189,29 @@
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">{{ entry_ml_url_retorno }}</label>
                                 <div class="col-sm-10">
-                                    <input type="text" disabled value="{{ redirect_url }}" class="form-control" />
+                                    <input type="text" disabled value="{{ uri_retorno }}" class="form-control" />
                                 </div>
                             </div>
 
-
-
-
                         </div> <!-- Tab Config -->
 
-
-                        <!-- Tab Browse -->
-                        <div class="tab-pane" id="browse">
-                            <div class="form-group">
+                        <div class="tab-pane" id="browse"><!-- Tab Feedback --> 
+                            <div class="form-group required">
                                 <label class="col-sm-2 control-label"><span data-toggle="tooltip" data-html="true" title="{{ help_ml_category }}">{{ entry_ml_category }}</span></label>
                                 <div class="col-sm-10">
                                     <select name="module_opencartml_category" class="form-control">
-                                        <option value="1" selected>{{ text_enabled }}</option>
-                                        <option value="0">{{ text_enabled }}</option>
+                                        {% for categorie in categories %}
+                                            {% if categorie.id == module_opencartml_category %}
+                                                <option value="{{ categorie.id }}" selected>{{ categorie.name }}</option>
+                                            {% else %}
+                                                <option value="{{ categorie.id }}">{{ categorie.name }}</option>
+                                            {% endif %}
+                                        {% endfor %}
                                     </select>
                                 </div>
-                            </div>   
+                            </div>                                    
+
+
 
                             <div class="form-group">
                                 <label class="col-sm-2 control-label"><span data-toggle="tooltip" data-html="true" title="{{ help_ml_subcategory }}">{{ entry_ml_subcategory }}</span></label>
@@ -225,8 +227,13 @@
                                 <label class="col-sm-2 control-label"><span data-toggle="tooltip" data-html="true" title="{{ help_ml_currency }}">{{ entry_ml_currency }}</span></label>
                                 <div class="col-sm-10">
                                     <select name="module_opencartml_currency" class="form-control">
-                                        <option value="1" selected>{{ text_enabled }}</option>
-                                        <option value="0">{{ text_enabled }}</option>
+                                        {% for currencie in currencies %}
+                                            {% if currencie.id == module_opencartml_currency %}
+                                                <option value="{{ currencie.id }}" selected>{{ currencie.description }}</option>
+                                            {% else %}
+                                                <option value="{{ currencie.id }}">{{ currencie.description }}</option>
+                                            {% endif %}
+                                        {% endfor %}
                                     </select>
                                 </div>
                             </div>   
@@ -235,8 +242,13 @@
                                 <label class="col-sm-2 control-label"><span data-toggle="tooltip" data-html="true" title="{{ help_ml_adtype }}">{{ entry_ml_adtype }}</span></label>
                                 <div class="col-sm-10">
                                     <select name="module_opencartml_adtype" class="form-control">
-                                        <option value="1" selected>{{ text_enabled }}</option>
-                                        <option value="0">{{ text_enabled }}</option>
+                                        {% for listing_type in listing_types %}                                           
+                                            {% if listing_type.id == module_opencartml_adtype %}
+                                                <option value="{{ listing_type.id }}" selected>{{ listing_type.name }}</option>                                       
+                                            {% else %}
+                                                <option value="{{ listing_type.id }}">{{ listing_type.name }}</option>
+                                            {% endif %}
+                                        {% endfor %}
                                     </select>
                                 </div>
                             </div>   
@@ -446,32 +458,35 @@
                                 <div class="col-sm-10">
                                     <div class="alert alert-info">
                                         <i class="fa fa-info-circle"></i>
+                                        {% if auth_code %}
+                                        {{ text_ml_grant_access }}
+                                        {% else %}                                         
                                         {{ text_ml_autorization }}
+                                        {% endif %}
                                     </div>
                                 </div>
                             </div>
+                            <div class="col-sm-10">
+                                <div class="panel-body">
 
-                                        <div class="form-group">
+                                    {% if auth_code %}
+                                        <p>Você já esta autorizado sob o código :: {{ auth_code }}</p>                                    
+                                        <p><strong>Id da sua conta: </strong>{{ account.id }}</p>
+                                        <p><strong>Seu pelino: </strong>{{ account.nickname }}</p>
+                                        <p><strong>Sua página no Mercado Livre: </strong><a href="{{ account.permalink }}" target="_blank">{{ account.permalink }}</a></p></p>    
+                                        
+                                                
 
-                                            <div class="col-sm-10">
-                                                {% if auth_code %}
-                                                        <p>Você Já esta autorizado :: {{ auth_code }}</p>
-                              
-                                                {% else %}    
-                                                    <span class="input-group-btn">
-                                                        <a href="{{ auth_link }}" class="btn btn-primary">{{ text_ml_b_auth }}</a>
-                                                    </span>
-                                                {% endif %}
-                                            </div>
-                                        </div>
-
-
-
-
-
-
-
-                        </div><!-- tab Content -->
+                                        
+                                    {% else %}    
+                                        <span class="input-group-btn">
+                                            <a href="{{ auth_link }}" class="btn btn-primary">{{ text_ml_b_auth }}</a>
+                                        </span>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div><!-- tab Content -->
                 </form> <!-- /Form -->   
             </div><!-- /.panel-body -->
         </div><!-- /.panel.panel-default -->

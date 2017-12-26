@@ -15,6 +15,12 @@ class ControllerExtensionModuleOpencartml extends Controller {
     public $siteId = 'MLB';
     public $redirectURI;
     public $secretkey;
+    public $access_token;
+    public $refresh_token;
+    public $expires_in;
+    public $user_id;
+    public $scope;
+    public $token_type;
 
     public function index() {
 
@@ -38,33 +44,124 @@ class ControllerExtensionModuleOpencartml extends Controller {
                 'module_opencartml_category' => $this->request->post['module_opencartml_category'],
                 'module_opencartml_subcategory' => $this->request->post['module_opencartml_subcategory'],
                 'module_opencartml_currency' => $this->request->post['module_opencartml_currency'],
+                'module_opencartml_feedback_status' => $this->request->post['module_opencartml_feedback_status'],
+                'module_opencartml_adtype' => $this->request->post['module_opencartml_adtype'],
             ]);
+
 
             $this->session->data['success'] = $this->language->get('text_success');
             $this->response->redirect($this->url->link('marketplace/extension', 'user_token=' . $user_token, true));
         }
 
-            $par1 = $this->config->get('module_opencartml_client_id');
-            $par2 = $this->config->get('module_opencartml_client_secret');
-            $par3 = 'https://nicbit.com.br/index.php?route=extension/module/opencartml/opcall';
-            $par4 = $this->config->get('module_opencartml_auth');
-            $opme = new Opme($par1, $par2, $par3);
+        $par1 = $this->config->get('module_opencartml_client_id');
+        $par2 = $this->config->get('module_opencartml_client_secret');
+        $redirectURI = 'https://nicbit.com.br/index.php?route=extension/module/opencartml/opcall';
+        $ml_code = $this->config->get('module_opencartml_auth');
+        $opme = new Opme($par1, $par2, $redirectURI);
+
+        //Link para autorização
+        $data['auth_link'] = $opme->getAuthUrl($redirectURI);
+        
+        //Link para configurar o aplicativo no mercadolivre
+        $data['uri_retorno'] = HTTPS_SERVER . "index.php?route=extension/module/opencartml/opcall";
+        
             
-    //        
-            $data['auth_link'] = $opme->getAuthUrl($par3);
-            $retorno = $opme->authorize($par4, $par3);
-            
-   print_r($retorno);
-   echo $par4;
-   exit();
-       
-        //* Load Models */          
+        //Categorias principais
+        $categories = $opme->get('sites/MLB/categories');
+        $data['categories'] = $categories['body'];
+
+        //Moedas disponíveis
+        $currencies = $opme->get('currencies');
+        $data['currencies'] = $currencies['body'];
+
+        //Autorização para dados da conta (privados)
+        // $retorno = $opme->authorize($ml_code, $redirectURI);
+
         $this->load->model('localisation/order_status');
         $this->load->model('customer/custom_field');
         $this->load->model('localisation/order_status');
         $this->load->model('localisation/currency');
+        $this->load->model('extension/module/opencartml');
+
+        /**
+         * Recupera dados do token armazenados em bd, pega o mais recente
+         */
+        $retorno = $this->model_extension_module_opencartml->GetToken();
+
+        if ($retorno) {
+            $access_token = $retorno['access_token'];
+            $refresh_token = $retorno['refresh_token'];
+            $expires_in = $retorno['expires_in'];
+            $user_id = $retorno['user_id'];
+
+            $opme->PutToken($access_token);
+            $opme->PutRefresh($refresh_token);
+        } else {
+            $access_token = '';
+            $refresh_token = '';
+            $expires_in = '';
+            $user_id = '';
+        }
+        
+        
+        if (isset($ml_code) || isset($access_token)) {
+            if (isset($ml_code) && !isset($access_token)) {
+                try {
+
+                    $user = $opme->authorize($ml_code, $redirectURI);
+
+                    // Atualiza as variaveis de ambiente
+                    $access_token = $user['body']->access_token;
+                    $refresh_token = time() + $user['body']->expires_in;
+                    $expires_in = $user['body']->refresh_token;
+                    $user_id = $user['body']->user_id;
+                    $scope = $user['body']->scope;
+                    $token_type = $user['body']->token_type;
+
+                    //Insere os dados no banco de dados
+                    $this->model_extension_module_opencartml->PutToken($access_token, $refresh_token, $expires_in, $user_id, $scope, $token_type);
+                } catch (Exception $e) {
+                    echo "Exception: ", $e->getMessage(), "\n";
+                }
+            } else {
+                //Verifica se a sessão esta no tempo ou já expirou                
+                if ($expires_in < time()) {
+                    try {
+
+                        $refresh = $opme->refreshAccessToken();
+
+                        // Atualiza as variaveis de ambiente
+                        $access_token = $refresh['body']->access_token;
+                        $refresh_token = time() + $refresh['body']->expires_in;
+                        $expires_in = $refresh['body']->refresh_token;
+                        $user_id = $refresh['body']->user_id;
+                        $scope = $refresh['body']->scope;
+                        $token_type = $refresh['body']->token_type;
+
+                        $this->model_extension_module_opencartml->PutToken($access_token, $refresh_token, $expires_in, $user_id, $scope, $token_type);
+
+                        $opme->PutToken($access_token);
+                        $opme->PutRefresh($refresh_token);
+                        
+                    } catch (Exception $e) {
+                        echo "Exception: ", $e->getMessage(), "\n";
+                    }
+                }
+            }
+        }
 
 
+        //Moedas disponíveis
+        $listing_types = $opme->get('sites/MLB/listing_types');
+        $data['listing_types'] = $listing_types['body'];
+
+        //Dados da conta
+
+        $account = $opme->get('users/me?access_token=' . $access_token);
+        $data['account'] = $account['body'];
+
+        
+        
         /* Warning */
         if (isset($this->error['warning'])) {
             $data['warning'] = $this->error['warning'];
@@ -166,6 +263,25 @@ class ControllerExtensionModuleOpencartml extends Controller {
         }
 
 
+
+        /* FeedBack Status */
+        if (isset($this->request->post['module_opencartml_feedback_status'])) {
+            $data['module_opencartml_feedback_status'] = $this->request->post['module_opencartml_feedback_status'];
+        } else {
+            $data['module_opencartml_feedback_status'] = $this->config->get('module_opencartml_debug');
+        }
+
+        /* Ad Type */
+        if (isset($this->request->post['module_opencartml_adtype'])) {
+            $data['module_opencartml_adtype'] = $this->request->post['module_opencartml_adtype'];
+        } else {
+            $data['module_opencartml_adtype'] = $this->config->get('module_opencartml_adtype');
+        }
+
+
+
+
+
         $url = '';
         /* Links */
         $data['action'] = $this->url->link('extension/module/opencartml', 'user_token=' . $user_token, true);
@@ -175,7 +291,6 @@ class ControllerExtensionModuleOpencartml extends Controller {
         $data['footer'] = $this->load->controller('common/footer');
         $data['link_custom_field'] = $this->url->link('customer/custom_field', 'user_token=' . $user_token, true);
         $data['custom_fields'] = $this->model_customer_custom_field->getCustomFields();
-        $data['currencies'] = $this->model_localisation_currency->getCurrencies();
         $data['statuses'] = $this->model_localisation_order_status->getOrderStatuses();
         $data['add'] = $this->url->link('module/extension/opencartml/add', 'user_token=' . $this->session->data['user_token'] . $url, true);
         $data['delete'] = $this->url->link('module/extension/opencartml/del', 'user_token=' . $this->session->data['user_token'] . $url, true);
