@@ -23,6 +23,9 @@ $_['text_ml_autorization']          = 'Você ainda não autorizou este site a op
 $_['text_ml_b_auth']                = 'Autorizar no Mercado Livre';
 $_['text_ml_authorized']            = 'Você já esta autorizado';
 $_['text_ml_grant_access']          = 'Este site já esta autorizado a operar com mercado livre, confira abaixo detalhes da autorizaação';
+$_['text_positive']                 = 'Positivo';
+$_['text_neutral']                  = 'Neutro';
+
 
 //Tab
 $_['tab_config']                    = 'Configuração';

@@ -45,6 +45,9 @@ class ControllerExtensionModuleOpencartml extends Controller {
                 'module_opencartml_subcategory' => $this->request->post['module_opencartml_subcategory'],
                 'module_opencartml_currency' => $this->request->post['module_opencartml_currency'],
                 'module_opencartml_feedback_status' => $this->request->post['module_opencartml_feedback_status'],
+                'module_opencartml_feedback_status_post' => $this->request->post['module_opencartml_feedback_status_post'],
+                'module_opencartml_feedback_rating' => $this->request->post['module_opencartml_feedback_rating'],
+                'module_opencartml_feedback_message' => $this->request->post['module_opencartml_feedback_message'],
                 'module_opencartml_adtype' => $this->request->post['module_opencartml_adtype'],
             ]);
 
@@ -57,15 +60,18 @@ class ControllerExtensionModuleOpencartml extends Controller {
         $par2 = $this->config->get('module_opencartml_client_secret');
         $redirectURI = 'https://nicbit.com.br/index.php?route=extension/module/opencartml/opcall';
         $ml_code = $this->config->get('module_opencartml_auth');
+
+        
+        
         $opme = new Opme($par1, $par2, $redirectURI);
 
         //Link para autorização
         $data['auth_link'] = $opme->getAuthUrl($redirectURI);
-        
+
         //Link para configurar o aplicativo no mercadolivre
         $data['uri_retorno'] = HTTPS_SERVER . "index.php?route=extension/module/opencartml/opcall";
-        
-            
+
+
         //Categorias principais
         $categories = $opme->get('sites/MLB/categories');
         $data['categories'] = $categories['body'];
@@ -102,8 +108,8 @@ class ControllerExtensionModuleOpencartml extends Controller {
             $expires_in = '';
             $user_id = '';
         }
-        
-        
+
+
         if (isset($ml_code) || isset($access_token)) {
             if (isset($ml_code) && !isset($access_token)) {
                 try {
@@ -132,8 +138,8 @@ class ControllerExtensionModuleOpencartml extends Controller {
 
                         // Atualiza as variaveis de ambiente
                         $access_token = $refresh['body']->access_token;
-                        $refresh_token = time() + $refresh['body']->expires_in;
-                        $expires_in = $refresh['body']->refresh_token;
+                        $expires_in = time() + $refresh['body']->expires_in;
+                        $refresh_token = $refresh['body']->refresh_token;
                         $user_id = $refresh['body']->user_id;
                         $scope = $refresh['body']->scope;
                         $token_type = $refresh['body']->token_type;
@@ -142,7 +148,6 @@ class ControllerExtensionModuleOpencartml extends Controller {
 
                         $opme->PutToken($access_token);
                         $opme->PutRefresh($refresh_token);
-                        
                     } catch (Exception $e) {
                         echo "Exception: ", $e->getMessage(), "\n";
                     }
@@ -151,17 +156,27 @@ class ControllerExtensionModuleOpencartml extends Controller {
         }
 
 
-        //Moedas disponíveis
+        //Tipos de anuncio
         $listing_types = $opme->get('sites/MLB/listing_types');
         $data['listing_types'] = $listing_types['body'];
 
-        //Dados da conta
 
+
+
+        //Dados da conta
         $account = $opme->get('users/me?access_token=' . $access_token);
         $data['account'] = $account['body'];
 
-        
-        
+
+
+        //itens anunciados
+        //$itens = $opme->get('sites/MLB/search?seller_id=53565196?access_token=' . $access_token);
+        //$data['itens'] = $itens['body'];
+        //print_r($data['account']);
+        //exit();
+
+
+
         /* Warning */
         if (isset($this->error['warning'])) {
             $data['warning'] = $this->error['warning'];
@@ -262,14 +277,37 @@ class ControllerExtensionModuleOpencartml extends Controller {
             $data['debug'] = array();
         }
 
-
-
         /* FeedBack Status */
         if (isset($this->request->post['module_opencartml_feedback_status'])) {
             $data['module_opencartml_feedback_status'] = $this->request->post['module_opencartml_feedback_status'];
         } else {
-            $data['module_opencartml_feedback_status'] = $this->config->get('module_opencartml_debug');
+            $data['module_opencartml_feedback_status'] = $this->config->get('module_opencartml_feedback_status');
         }
+
+        /* Feedback Status Post */
+        if (isset($this->request->post['module_opencartml_feedback_status_post'])) {
+            $data['module_opencartml_feedback_status_post'] = $this->request->post['module_opencartml_feedback_status_post'];
+        } else {
+            $data['module_opencartml_feedback_status_post'] = $this->config->get('module_opencartml_feedback_status_post');
+        }
+
+        /* Feedback Rating */
+        if (isset($this->request->post['module_opencartml_feedback_rating'])) {
+            $data['module_opencartml_feedback_rating'] = $this->request->post['module_opencartml_feedback_rating'];
+        } else {
+            $data['module_opencartml_feedback_rating'] = $this->config->get('module_opencartml_feedback_rating');
+        }
+
+        /* Feedback Rating */
+        if (isset($this->request->post['module_opencartml_feedback_message'])) {
+            $data['module_opencartml_feedback_message'] = $this->request->post['module_opencartml_feedback_message'];
+        } else {
+            $data['module_opencartml_feedback_message'] = $this->config->get('module_opencartml_feedback_message');
+        }
+
+
+
+        
 
         /* Ad Type */
         if (isset($this->request->post['module_opencartml_adtype'])) {
@@ -296,6 +334,8 @@ class ControllerExtensionModuleOpencartml extends Controller {
         $data['delete'] = $this->url->link('module/extension/opencartml/del', 'user_token=' . $this->session->data['user_token'] . $url, true);
         $data['redirect_url'] = $this->url->link('module/extension/opencartml', 'user_token=' . $this->session->data['user_token'] . $url, true);
         $data['auth_code'] = $this->config->get('module_opencartml_auth');
+        
+        
 
         $this->response->setOutput($this->load->view('extension/module/opencartml', $data));
     }

@@ -23,6 +23,10 @@ $_['text_ml_autorization']          = 'Você ainda não autorizou este site a op
 $_['text_ml_b_auth']                = 'Autorizar no Mercado Livre';
 $_['text_ml_authorized']            = 'Você já esta autorizado';
 $_['text_ml_grant_access']          = 'Este site já esta autorizado a operar com mercado livre, confira abaixo detalhes da autorizaação';
+$_['text_positive']                 = 'Positivo';
+$_['text_neutral']                  = 'Neutro';
+
+
 
 //Tab
 $_['tab_config']                    = 'Configuração';
@@ -48,6 +52,9 @@ $_['entry_ml_itemcondition']        = 'Estado:';
 $_['entry_ml_automation']           = 'Tarefas automaticas';
 $_['entry_ml_feedback_status']      = 'Situação';
 $_['entry_ml_feedback_status_post'] = 'Qualificar quando';
+$_['entry_ml_feedback_shipped']     = 'Quando for postado';
+$_['entry_ml_feedback_arrival']     = 'Quando o cliente receber';
+
 $_['entry_ml_template_default']     = 'Descrição';
 $_['entry_ml_feedback_rating']      = 'Qualificação';
 $_['entry_ml_number']               = 'Numero';
@@ -61,6 +68,8 @@ $_['entry_ml_completed']            = 'Pago:';
 $_['entry_ml_shiped']               = 'Enviado:';
 $_['entry_ml_delivered']            = 'Entregue:';
 $_['entry_ml_canceled']             = 'Cancelada:';
+
+
 
 
 //Help

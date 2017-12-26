@@ -46,8 +46,10 @@
                     <li><a data-toggle="tab" href="#browse">{{ tab_listing_config }}</a></li>
                     <li><a data-toggle="tab" href="#automation">{{ tab_ml_automation }}</a></li>
                     <li><a data-toggle="tab" href="#orders">{{ tab_order_config }}</a></li>
+                     <!--
                     <li><a data-toggle="tab" href="#messages">{{ tab_ml_menssages }}</a></li>
                     <li><a data-toggle="tab" href="#templates">{{ tab_template }}</a></li>
+                     -->
                     <li><a data-toggle="tab" href="#autorization">{{ tab_ml_autorization }}</a></li>
                 </ul>
 
@@ -309,34 +311,33 @@
                                 <div class="col-sm-10">
                                     <select name="module_opencartml_feedback_status_post" class="form-control">
                                         {% if module_opencartml_feedback_status_post %}
-                                            <option value="1" selected>{{ text_enabled }}</option>
+                                            <option value="1" selected>{{ entry_ml_feedback_arrival }}</option>
                                         {% else %}
-                                            <option value="1">{{ text_enabled }}</option>
+                                            <option value="1">{{ entry_ml_feedback_arrival }}</option>
                                         {% endif %}
                                         {% if not module_opencartml_feedback_status_post %}
-                                            <option value="0" selected>{{ text_disabled }}</option>
+                                            <option value="0" selected>{{ entry_ml_feedback_shipped }}</option>
                                         {% else %}
-                                            <option value="0">{{ text_disabled }}</option>
+                                            <option value="0">{{ entry_ml_feedback_shipped }}</option>
                                         {% endif %}
                                     </select>
                                 </div>
                             </div><!-- Status -->  
-
-
+ 
 
                             <div class="form-group required"><!-- Status -->
                                 <label class="col-sm-2 control-label"><span data-toggle="tooltip" data-html="true" title="{{ help_ml_feedback_rating }}">{{ entry_ml_feedback_rating }}</span></label>
                                 <div class="col-sm-10">
                                     <select name="module_opencartml_feedback_rating" class="form-control">
                                         {% if module_opencartml_feedback_rating %}
-                                            <option value="1" selected>{{ text_enabled }}</option>
+                                            <option value="positive" selected>{{ text_positive }}</option>
                                         {% else %}
-                                            <option value="1">{{ text_enabled }}</option>
+                                            <option value="positive">{{ text_positive }}</option>
                                         {% endif %}
                                         {% if not module_opencartml_feedback_rating %}
-                                            <option value="0" selected>{{ text_disabled }}</option>
+                                            <option value="neutral" selected>{{ text_neutral }}</option>
                                         {% else %}
-                                            <option value="0">{{ text_disabled }}</option>
+                                            <option value="neurtral">{{ text_neutral }}</option>
                                         {% endif %}
                                     </select>
                                 </div>
@@ -346,8 +347,7 @@
                             <div class="form-group">
                                 <label class="col-sm-2 control-label" for="input-description1">{{ entry_ml_feedback_message }}</label>
                                 <div class="col-sm-10">
-                                    <textarea name="module_opencartml_feedback_message" placeholder="Description" id="input-feedback" data-toggle="none" data-lang="" class="form-control">
-                                    </textarea>
+                                    <textarea name="module_opencartml_feedback_message" placeholder="Description" id="module_opencartml_feedback_message" data-toggle="none" data-lang="" class="form-control">{{ module_opencartml_feedback_message }}</textarea>
                                 </div>
                             </div>                                                      
                         </div><!-- Tab Feedback -->   

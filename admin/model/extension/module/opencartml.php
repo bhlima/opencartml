@@ -27,13 +27,8 @@ class ModelExtensionModuleOpencartml extends Model {
      * @return type array()
      */
     public function PutToken($par1, $par2, $par3, $par4, $par5, $par6) {
-        $this->db->query("INSERT INTO `" . DB_PREFIX . "ml_token` (`access_token`, `refresh_token` , `expires_in` , `user_id`, `scope`, `token_type`) 
-                VALUES ('" . $this->db->escape($par1) . "',"
-                . "'" . $this->db->escape($par2) . "',"
-                . "'" . $this->db->escape($par3) . "',"
-                . "'" . $this->db->escape($par4) . "',"
-                . "'" . $this->db->escape($par5) . "',"
-                . "'" . $this->db->escape($par6) . "'");
+        $this->db->query("INSERT INTO `" . DB_PREFIX . "ml_token` (`access_token`, `refresh_token`, `expires_in`, `user_id`, `scope`, `token_type`) 
+                VALUES ('" . $this->db->escape($par1) . "','" . $this->db->escape($par2) . "','" . $this->db->escape($par3) . "','" . $this->db->escape($par4) . "','" . $this->db->escape($par5) . "','" . $this->db->escape($par6) . "')");
         return;
     }
 
