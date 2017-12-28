@@ -23,8 +23,10 @@ $_['text_ml_autorization']          = 'Você ainda não autorizou este site a op
 $_['text_ml_b_auth']                = 'Autorizar no Mercado Livre';
 $_['text_ml_authorized']            = 'Você já esta autorizado';
 $_['text_ml_grant_access']          = 'Este site já esta autorizado a operar com mercado livre, confira abaixo detalhes da autorizaação';
+
 $_['text_positive']                 = 'Positivo';
 $_['text_neutral']                  = 'Neutro';
+
 
 
 
@@ -75,7 +77,8 @@ $_['entry_ml_canceled']             = 'Cancelada:';
 //Help
 
 
-$_['entry_ml_data_nascimento']      = 'Aniversário';$_['help_status']                   = 'Habilite ou Desabilite o módulo Mercado Livre';
+$_['entry_ml_data_nascimento']      = 'Aniversário';
+$_['help_status']                   = 'Habilite ou Desabilite o módulo Mercado Livre';
 $_['help_client_id']                = 'APP Id você obtem acessando https://developers.mercadolivre.com.br/apps/home';
 $_['help_client_secret']            = 'E a contra senha você obtem acessando https://developers.mercadolivre.com.br/apps/home';
 $_['help_redirect_uri']             = 'Falta testo';
