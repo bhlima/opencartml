@@ -26,9 +26,3 @@ bacana com ele.
 
 Licença
 GNU General Public License version 3 (GPLv3)
-
-Plataforma de teste:
-https://nicbit.com.br/
-
-Apoio:
-http://soire.com.br
